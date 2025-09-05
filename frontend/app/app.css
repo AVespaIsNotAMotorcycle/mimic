@@ -1,0 +1,29 @@
+body {
+  display: flex;
+}
+
+header,
+main,
+footer {
+  outline: 1px solid red;
+	padding: 1rem;
+}
+
+article.post {
+  border: 1px solid white;
+	padding: 1rem;
+}
+article.post img {
+  width: 4rem;
+	aspect-ratio: 1 / 1;
+	border-radius: 50%;
+}
+article.post .heading {
+  display: flex;
+	gap: 1rem;
+  margin-bottom: 2rem;
+}
+article.post .names {
+  display: flex;
+	flex-direction: column;
+}
