@@ -9,6 +9,8 @@ html {
   --color-text: var(--white);
 	--color-border: var(--quartz);
 
+  --border-radius: 5px;
+
 	background: var(--color-background);
   color: var(--color-text);
 
@@ -77,3 +79,45 @@ article.post .footing span {
 }
 article.post .footing { gap: 1rem; }
 article.post .footing span { gap: 0.5rem; }
+
+textarea {
+	box-sizing: border-box;
+	width: 100%;
+  resize: none;
+  border: 1px solid var(--color-border);
+	background: var(--color-background);
+	border-radius: var(--border-radius);
+	min-height: 5rem;
+	font: inherit;
+	color: inherit;
+	padding: 0.5rem 1rem;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+button {
+  padding: 1rem;
+  margin: 1rem 0;
+	background-color: var(--munsell);
+	border-radius: var(--border-radius);
+	border: none;
+	font-weight: 600;
+	color: var(--powder);
+  outline: 0px solid var(--munsell);
+	transition-properties: color background-color outline-width;
+	transition-duration: 0.2s;
+}
+button:hover,
+button:focus {
+	outline-width: 2px;
+	background-color: var(--powder);
+	color: var(--munsell);
+	cursor: pointer;
+}
+
+button[type=submit] {
+	margin-left: auto;
+}

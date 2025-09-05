@@ -51,6 +51,15 @@ function PostDisplay({
 	);
 }
 
+function ComposePost() {
+  return (
+		<form className="composepost">
+			<textarea />
+			<button type="submit">Post</button>
+		</form>
+	);
+}
+
 export default function Timeline() {
   const [errorMessage, setErrorMessage] = useState<string>();
 	const [posts, setPosts] = useState<Post[]>();
@@ -66,6 +75,7 @@ export default function Timeline() {
 	const postsExist : bool = postsLoaded && posts.length > 0;
   return (
 	  <main>
+			<ComposePost />
 			{!postsLoaded && 'Loading...'}
 		  {postsLoaded && posts.map((post) => <PostDisplay key={post.id} {...post} />)}
 			{postsLoaded && !postsExist && 'No posts were found.'}
