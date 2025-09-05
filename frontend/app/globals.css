@@ -40,6 +40,13 @@ nav ul {
 	padding: 0;
 }
 
+nav ul a {
+  display: flex;
+	gap: 1rem;
+	text-decoration: none;
+	padding: 0.5rem 1rem;
+}
+
 main {
   max-width: 50rem;
   border: 1px solid var(--color-border);
