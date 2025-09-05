@@ -1,5 +1,7 @@
 import './globals.css';
 
+import Timeline from './components/Timeline';
+
 function Header() {
   return (
 	  <header>
@@ -15,47 +17,6 @@ function Header() {
 	);
 }
 
-function Post() {
-
-  const profilePicture : string = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Gustav_Klimt_046.jpg/1200px-Gustav_Klimt_046.jpg';
-  const displayName : string = 'John Doe';
-  const userName : string = 'test_poster';
-  const content : string = 'Lorem ipsum dolor sit amet.';
-
-  return (
-	  <article className="post">
-			<div className="heading">
-		  	<img src={profilePicture} />
-				<div className="names">
-				  <span>{displayName}</span>
-				  <span>@{userName}</span>
-				</div>
-			</div>
-			<p>
-			  {content}
-		  </p>
-	  </article>
-	);
-}
-
-function Main() {
-  return (
-	  <main>
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-			<Post />
-		</main>
-	);
-}
-
 function Footer() {
   return (
 	  <footer>
@@ -68,7 +29,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Main />
+      <Timeline />
       <Footer />
     </>
   );
