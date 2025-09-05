@@ -1,4 +1,17 @@
-function Post({
+'use client';
+
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+interface Post {
+  id: string;
+	userName: string;
+	displayName: string;
+	profilePicture: string;
+	text: string;
+};
+
+function PostDisplay({
 	userName,
 	displayName,
 	profilePicture,
@@ -10,7 +23,7 @@ function Post({
 		  	<img src={profilePicture} />
 				<div className="names">
 				  <span>{displayName}</span>
-				  <span>@{userName}</span>
+				  <a href={`/user/${userName}`}>@{userName}</a>
 				</div>
 			</div>
 			<p>
@@ -21,16 +34,23 @@ function Post({
 }
 
 export default function Timeline() {
-  let posts: object[] = [{
-	  userName: 'test_poster',
-		displayName: 'John Doe',
-		text: 'Lorem ipsum',
-		profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Gustav_Klimt_046.jpg/1200px-Gustav_Klimt_046.jpg',
-	}];
+  const [errorMessage, setErrorMessage] = useState<string>();
+	const [posts, setPosts] = useState<Post[]>();
 
+  useEffect(() => {
+	  console.log('called useEffect');
+	  axios.get('http://localhost:8000/posts')
+			.then(({ data }) => setPosts(data))
+			.catch(({ message }) => { setErrorMessage(`Something went wrong: ${message}`); });
+	}, []);
+
+  const postsLoaded : bool = posts !== undefined;
+	const postsExist : bool = postsLoaded && posts.length > 0;
   return (
 	  <main>
-		  {posts.map((post) => <Post {...post} />)}
+			{!postsLoaded && 'Loading...'}
+		  {postsLoaded && posts.map((post) => <PostDisplay key={post.id} {...post} />)}
+			{postsLoaded && !postsExist && 'No posts were found.'}
 		</main>
 	);
 }
