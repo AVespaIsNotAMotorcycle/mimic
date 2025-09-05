@@ -70,3 +70,10 @@ article.post .names {
   display: flex;
 	flex-direction: column;
 }
+
+article.post .footing,
+article.post .footing span {
+  display: flex;
+}
+article.post .footing { gap: 1rem; }
+article.post .footing span { gap: 0.5rem; }

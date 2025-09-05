@@ -3,6 +3,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+
 interface Post {
   id: string;
 	userName: string;
@@ -29,6 +33,20 @@ function PostDisplay({
 			<p>
 			  {text}
 		  </p>
+			<div className="footing">
+				<span className="likes">
+					<FavoriteBorderIcon />
+					324
+				</span>
+				<span className="reposts">
+					<RepeatIcon />
+					34
+				</span>
+				<span className="comments">
+					<ChatBubbleOutlineIcon />
+					23
+				</span>
+			</div>
 	  </article>
 	);
 }
