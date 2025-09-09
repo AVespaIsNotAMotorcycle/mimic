@@ -74,11 +74,11 @@ export default function Timeline() {
   const postsLoaded : bool = posts !== undefined;
 	const postsExist : bool = postsLoaded && posts.length > 0;
   return (
-	  <main>
+	  <>
 			<ComposePost />
 			{!postsLoaded && 'Loading...'}
 		  {postsLoaded && posts.map((post) => <PostDisplay key={post.id} {...post} />)}
 			{postsLoaded && !postsExist && 'No posts were found.'}
-		</main>
+		</>
 	);
 }
