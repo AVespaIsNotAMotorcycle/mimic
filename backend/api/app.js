@@ -5,8 +5,25 @@ const port = 8000
 
 app.use(cors())
 
-app.get('/posts', (req, res) => {
-  res.send([
+const USERS = {
+  test_poster: {
+		userName: 'test_poster',
+		displayName: 'John Doe',
+		profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Egon_Schiele_-_Self-Portrait_with_Physalis_-_Google_Art_Project.jpg/330px-Egon_Schiele_-_Self-Portrait_with_Physalis_-_Google_Art_Project.jpg',
+	},
+	not_a_real_human: {
+		userName: 'not_a_real_human',
+		displayName: 'Hugh Mann',
+		profilePicture: 'https://static01.nyt.com/images/2024/08/06/multimedia/02schiele-qbpl/02schiele-qbpl-superJumbo.jpg',
+	},
+	someones_dog: {
+		userName: 'someones_dog',
+		displayName: 'Internet Dog',
+		profilePicture: 'https://6.api.artsmia.org/800/10219.jpg',
+	},
+};
+
+const POSTS = [
 		{
 			id: '1ged87ft6e',
 			userName: 'test_poster',
@@ -35,7 +52,22 @@ app.get('/posts', (req, res) => {
 			profilePicture: 'https://6.api.artsmia.org/800/10219.jpg',
 			text: 'Sed placerat mauris cursus quam facilisis lacinia. Cras porttitor magna blandit tempor commodo. Proin purus augue, fermentum facilisis commodo vel, hendrerit et lacus.',
 		},
-	]);
+];
+
+app.get('/posts', (req, res) => {
+  res.send(POSTS);
+});
+
+function getPostsFromUser(user) {
+  return POSTS.filter(({ userName }) => userName === user);
+}
+
+app.get('/user/:userName', (req, res) => {
+	const { userName } = req.params;
+	res.send({
+		...USERS[userName],
+		posts: getPostsFromUser(userName),
+	});
 });
 
 app.get('/', (req, res) => {
