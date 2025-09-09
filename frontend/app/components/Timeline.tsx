@@ -1,8 +1,3 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
@@ -74,25 +69,14 @@ function ComposePost() {
 	);
 }
 
-export default function Timeline() {
-  const [errorMessage, setErrorMessage] = useState<string>();
-	const [posts, setPosts] = useState<Post[]>();
+export default async function Timeline() {
+	const data = await fetch('http://localhost:8000/posts');
+  const posts = await data.json();
 
-  useEffect(() => {
-	  console.log('called useEffect');
-	  axios.get('http://localhost:8000/posts')
-			.then(({ data }) => setPosts(data))
-			.catch(({ message }) => { setErrorMessage(`Something went wrong: ${message}`); });
-	}, []);
-
-  const postsLoaded : bool = posts !== undefined;
-	const postsExist : bool = postsLoaded && posts.length > 0;
   return (
 	  <>
 			<ComposePost />
-			{!postsLoaded && 'Loading...'}
-		  {postsLoaded && posts.map((post) => <PostDisplay key={post.id} {...post} />)}
-			{postsLoaded && !postsExist && 'No posts were found.'}
+		  {posts.map((post) => <PostDisplay key={post.id} {...post} />)}
 		</>
 	);
 }
