@@ -3,7 +3,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import HomeIcon from '@mui/icons-material/Home';
 
 const buttons = [
-	{ icon: <HomeIcon />, label: 'Home' },
+	{ icon: <HomeIcon />, label: 'Home', href: '/' },
   { icon: <AccountBoxIcon />, label: 'Profile' },
   { icon: <EmailIcon />, label: 'Messages' },
 ];
@@ -14,9 +14,9 @@ export default function Header() {
 			<span className="logo">MIMIC</span>
 			<nav>
 				<ul>
-					{buttons.map(({ icon, label }) => (
+					{buttons.map(({ icon, label, href }) => (
 					  <li key={label}>
-							<a href={label}>
+							<a href={href || `/${label}`}>
 								{icon}
 								{label}
 					  	</a>
