@@ -15,7 +15,23 @@ interface Post {
 	text: string;
 };
 
-function PostDisplay({
+export function PostHeading({
+	userName,
+	displayName,
+	profilePicture,
+}) {
+	return (
+		<div className="post-heading">
+	  	<img src={profilePicture} />
+			<div className="names">
+			  <span>{displayName}</span>
+			  <a href={`/user/${userName}`}>@{userName}</a>
+			</div>
+		</div>
+	);
+}
+
+export function PostDisplay({
 	userName,
 	displayName,
 	profilePicture,
@@ -23,13 +39,11 @@ function PostDisplay({
 }) {
   return (
 	  <article className="post">
-			<div className="heading">
-		  	<img src={profilePicture} />
-				<div className="names">
-				  <span>{displayName}</span>
-				  <a href={`/user/${userName}`}>@{userName}</a>
-				</div>
-			</div>
+			<PostHeading
+				userName={userName}
+				displayName={displayName}
+				profilePicture={profilePicture}
+			/>
 			<p>
 			  {text}
 		  </p>

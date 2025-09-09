@@ -58,17 +58,17 @@ article.post {
 	padding: 1rem;
   border-top: 1px solid var(--color-border);
 }
-article.post img {
+.post-heading img {
   width: 4rem;
 	aspect-ratio: 1 / 1;
 	border-radius: 50%;
 }
-article.post .heading {
+.post-heading {
   display: flex;
 	gap: 1rem;
   margin-bottom: 2rem;
 }
-article.post .names {
+.post-heading .names {
   display: flex;
 	flex-direction: column;
 }
