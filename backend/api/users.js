@@ -24,7 +24,10 @@ function createEndpoints(app) {
   });
 
 	app.post('/user/:userName', async (req, res) => {
-		console.log('POST request to /user/:userName');
+  	const { userName } = req.params;
+		console.log(`POST request to /user/${userName}`);
+		console.log(req.body);
+		res.status(200);
 	});
 }
 
