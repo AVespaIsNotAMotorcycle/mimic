@@ -23,11 +23,33 @@ function createEndpoints(app) {
   	res.send(user);
   });
 
-	app.post('/user/:userName', async (req, res) => {
-  	const { userName } = req.params;
-		console.log(`POST request to /user/${userName}`);
-		console.log(req.body);
-		res.status(200);
+	app.post('/user/:userName', async (req, res, next) => {
+		const {
+			userName,
+			displayName,
+			email1,
+			password1,
+		} = req.body;
+		const passwordHash = await hashPassword(password1);
+		try {
+		const user = await mongoConnection
+			.db('mimic')
+			.collection('users')
+			.insertOne({
+				userName,
+				displayName,
+				email: email1,
+				passwordHash,
+			});
+		} catch (error) {
+			if (error.errorResponse.code === 11000) {
+				next(Error('Someone already has that username.'));
+			} else {
+				next(Error('Something went wrong.'));
+			}
+		} finally {
+			res.send('Account successfully created!');
+		}
 	});
 }
 
