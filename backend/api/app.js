@@ -1,12 +1,11 @@
-const { MongoClient } = require('mongodb');
 const express = require('express')
 const cors = require('cors')
 const { createHash } = require('crypto');
 
+const mongoConnection = require('./mongo');
+
 const app = express()
 const port = 8000
-
-const client = new MongoClient(process.env.MIMIC_DB_CONNECTION_STRING);
 
 app.use(cors())
 
@@ -57,7 +56,7 @@ function hashPassword(password) {
 
 app.get('/user/:userName', async (req, res) => {
 	const { userName } = req.params;
-	const user = await client.db('mimic').collection('users').findOne({ userName });
+	const user = await mongoConnection.db('mimic').collection('users').findOne({ userName });
 	res.send({
 		...user,
 		posts: getPostsFromUser(userName),
@@ -69,7 +68,7 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, async () => {
-	await client.connect();
+	await mongoConnection.connect();
   console.log(`Example app listening on port ${port}`)
 })
 
