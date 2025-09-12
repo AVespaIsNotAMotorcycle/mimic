@@ -53,12 +53,12 @@ export default function SignUp() {
 
 		const response = await fetch(`http://localhost:8000/user/${formData.username}`, {
 			method: 'POST',
-			body: formData,
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(formData),
 		});
 	}
 
 	const updateForm = (key, value) => {
-		console.log(key, value);
 		setFormData({ ...formData, [key]: value });
 	};
 
