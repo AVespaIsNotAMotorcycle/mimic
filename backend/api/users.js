@@ -14,12 +14,18 @@ async function getUser(userName) {
 	return { ...user, posts: posts.getPostsFromUser(userName) };
 }
 
+async function createUser() {}
+
 function createEndpoints(app) {
   app.get('/user/:userName', async (req, res) => {
   	const { userName } = req.params;
-  	const user = await users.getUser(userName);
+  	const user = await getUser(userName);
   	res.send(user);
   });
+
+	app.post('/user/:userName', async (req, res) => {
+		console.log('POST request to /user/:userName');
+	});
 }
 
 module.exports = {
