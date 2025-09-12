@@ -4,6 +4,7 @@ const { createHash } = require('crypto');
 
 const mongoConnection = require('./mongo');
 const posts = require('./posts');
+const users = require('./users');
 
 const app = express()
 const port = 8000
@@ -20,11 +21,8 @@ function hashPassword(password) {
 
 app.get('/user/:userName', async (req, res) => {
 	const { userName } = req.params;
-	const user = await mongoConnection.db('mimic').collection('users').findOne({ userName });
-	res.send({
-		...user,
-		posts: posts.getPostsFromUser(userName),
-	});
+	const user = await users.getUser(userName);
+	res.send(user);
 });
 
 app.get('/', (req, res) => {
