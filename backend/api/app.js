@@ -1,7 +1,10 @@
+const { MongoClient } = require('mongodb');
 const express = require('express')
 const cors = require('cors')
 const app = express()
 const port = 8000
+
+const client = new MongoClient(process.env.MIMIC_DB_CONNECTION_STRING);
 
 app.use(cors())
 
@@ -62,10 +65,11 @@ function getPostsFromUser(user) {
   return POSTS.filter(({ userName }) => userName === user);
 }
 
-app.get('/user/:userName', (req, res) => {
+app.get('/user/:userName', async (req, res) => {
 	const { userName } = req.params;
+	const user = await client.db('mimic').collection('users').findOne({ userName });
 	res.send({
-		...USERS[userName],
+		...user,
 		posts: getPostsFromUser(userName),
 	});
 });
@@ -74,7 +78,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.listen(port, () => {
+app.listen(port, async () => {
+	await client.connect();
   console.log(`Example app listening on port ${port}`)
 })
 
