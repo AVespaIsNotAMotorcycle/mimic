@@ -14,7 +14,16 @@ async function getUser(userName) {
 	return { ...user, posts: posts.getPostsFromUser(userName) };
 }
 
+function createEndpoints(app) {
+  app.get('/user/:userName', async (req, res) => {
+  	const { userName } = req.params;
+  	const user = await users.getUser(userName);
+  	res.send(user);
+  });
+}
+
 module.exports = {
   hashPassword,
 	getUser,
+  createEndpoints,
 }

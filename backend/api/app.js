@@ -19,11 +19,7 @@ function hashPassword(password) {
 	return hash.digest('hex');
 }
 
-app.get('/user/:userName', async (req, res) => {
-	const { userName } = req.params;
-	const user = await users.getUser(userName);
-	res.send(user);
-});
+users.createEndpoints(app);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
