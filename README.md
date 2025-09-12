@@ -2,10 +2,10 @@
 
 ## Features
 
-[] Accounts
-  [] Users can create accounts
-  [] Users can log in
-  [] Users can change their passwords
+- [ ] Accounts
+  - [ ] Users can create accounts
+  - [ ] Users can log in
+  - [ ] Users can change their passwords
   [] Users use 2FA
   [] Users can change their profile pictures
   [] Users can change their display names
