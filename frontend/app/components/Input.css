@@ -1,0 +1,14 @@
+label {
+  display: flex;
+	flex-direction: column;
+  --padding-left: 0.5rem;
+	margin: 0.5rem 0;
+}
+label .label-text {
+  margin-left: var(--padding-left);
+}
+input {
+  font: inherit;
+  padding: var(--padding-left);
+  border-radius: var(--border-radius);
+}
