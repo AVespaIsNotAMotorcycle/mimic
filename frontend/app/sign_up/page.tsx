@@ -51,7 +51,10 @@ export default function SignUp() {
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		console.log(formData);
+		const response = await fetch(`http://localhost:8000/user/${formData.username}`, {
+			method: 'POST',
+			body: formData,
+		});
 	}
 
 	const updateForm = (key, value) => {
