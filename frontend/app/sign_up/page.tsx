@@ -13,10 +13,10 @@ const FORM = {
 		type: 'email',
 		label: 'Confirm email address',
 	},
-	username: {
-		label: 'Username',
+	userName: {
+		label: 'userName',
 	},
-	displayname: {
+	displayName: {
 		label: 'Display name',
 	},
 	password1: {
@@ -51,7 +51,7 @@ export default function SignUp() {
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		const response = await fetch(`http://localhost:8000/user/${formData.username}`, {
+		const response = await fetch(`http://localhost:8000/user/${formData.userName}`, {
 			method: 'POST',
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(formData),
