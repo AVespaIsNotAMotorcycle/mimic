@@ -12,3 +12,23 @@ input {
   padding: var(--padding-left);
   border-radius: var(--border-radius);
 }
+
+label .input-requirements {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+	margin-top: 0.5rem;
+}
+label .input-requirements > * {
+	padding: 0.5rem;
+	display: flex;
+	gap: 1rem;
+}
+label .input-requirements > .yes { background: rgba(0, 255, 0, 0.1); }
+label .input-requirements > .no { background: rgba(255, 0, 0, 0.1); }
+
+input:not(:focus) + .input-requirements > .yes {
+  background: orange;
+	height: 0;
+	position: absolute;
+	visibility: hidden;
+}
