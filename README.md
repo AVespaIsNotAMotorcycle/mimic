@@ -3,7 +3,7 @@
 ## Features
 
 - [ ] Accounts
-  - [ ] Users can create accounts
+  - [x] Users can create accounts
   - [ ] Users can log in
   - [ ] Users can change their passwords
   - [ ] Users use 2FA
