@@ -8,10 +8,19 @@ function Field({
 	inputID,
 	value,
 	onChange,
+	required,
 }) {
   switch (type) {
 		default:
-			return <input type={type} id={inputID} value={value} onChange={onChange} />;
+			return (
+				<input
+					type={type}
+					id={inputID}
+					value={value}
+					onChange={onChange}
+					required={required}
+				/>
+			);
 	}
 }
 
@@ -26,7 +35,10 @@ function Requirements({ value, requirements }) {
 					return null;
 				}
 				return (
-					<div className={checker(value) ? 'yes' : 'no'}>
+					<div
+						className={checker(value) ? 'yes' : 'no'}
+						key={description}
+					>
 						{checker(value) ? <CheckIcon /> : <WarningAmberIcon />}
 						{description}
 					</div>
@@ -41,6 +53,7 @@ interface InputProps {
 	label: string,
 	type: string,
   value: any,
+	required: boolean,
 }
 
 export default function Input(props: InputProps) {
@@ -51,15 +64,17 @@ export default function Input(props: InputProps) {
 		value = '',
 		onChange,
 		requirements,
+		required,
 	} = props;
 	return (
 		<label htmlFor={inputID}>
-			<span className="label-text">{label}</span>
+			<span className="label-text">{label}{required && ' *'}</span>
 			<Field
 				type={type}
 				inputID={inputID}
 				value={value}
 				onChange={onChange}
+				required={required}
 			/>
 			<Requirements value={value} requirements={requirements} />
 		</label>
