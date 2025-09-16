@@ -26,7 +26,6 @@ function Field({
 
 function Requirements({ value, requirements }) {
   if (!requirements) return null;
-	console.log(requirements[0]);
 	return (
 		<div className="input-requirements">
 		  {requirements.map(([description, checker]) => {
