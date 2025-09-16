@@ -2,6 +2,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
+import ComposePost from './ComposePost';
+
 interface Post {
   id: string;
 	userName: string;
@@ -57,15 +59,6 @@ export function PostDisplay({
 				</span>
 			</div>
 	  </article>
-	);
-}
-
-function ComposePost() {
-  return (
-		<form className="composepost">
-			<textarea />
-			<button type="submit">Post</button>
-		</form>
 	);
 }
 
