@@ -1,4 +1,5 @@
 import { mongoCollection } from './mongo.js';
+import { authenticateKey } from './users.js';
 
 export async function getAllPosts() {
 	const posts = await mongoCollection('posts').find().toArray();
@@ -14,5 +15,29 @@ export default function createEndpoints(app) {
 		const posts = await getAllPosts();
 		console.log(posts);
 		res.send(posts);
+	});
+  app.post('/posts', async (req, res) => {
+		const authKey = req.headers.Authorization;
+		const {
+			userName,
+			profilePicture,
+			displayName,
+		} = await authenticateKey(authKey);
+
+		if (!userName) {
+			res.status(401);
+			res.send('Invalid auth key.');
+			return;
+		}
+
+		const { text } = req.body;
+		await mongoCollection('posts').insertOne({
+			userName,
+			profilePicture,
+			displayName,
+			text,
+		});
+
+		res.status(200).send('OK');
 	});
 }
