@@ -1,8 +1,13 @@
+'use client'
+
+import { useState, useEffect } from 'react';
+
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 import ComposePost from './ComposePost';
+import Tabs from './Tabs';
 
 interface Post {
   id: string;
@@ -62,13 +67,27 @@ export function PostDisplay({
 	);
 }
 
-export default async function Timeline() {
-	const data = await fetch('http://localhost:8000/posts');
-  const posts = await data.json();
+const TIMELINE_MODES = [
+  { id: 'all', label: 'All posts' },
+  { id: 'following', label: 'Following' },
+];
+export default function Timeline() {
+	const [posts, setPosts] = useState([]);
+	const [timelineMode, setTimelineMode] = useState('all');
+
+	useEffect(() => {
+		fetch('http://localhost:8000/posts')
+			.then((data) => data.json().then(setPosts));
+	}, [timelineMode]);
 
   return (
 	  <>
 			<ComposePost />
+			<Tabs
+				tabs={TIMELINE_MODES}
+				selected={timelineMode}
+				onChange={setTimelineMode}
+			/>
 		  {posts.map((post) => <PostDisplay key={post._id} {...post} />)}
 		</>
 	);
