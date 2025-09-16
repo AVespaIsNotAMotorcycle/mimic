@@ -1,8 +1,15 @@
 'use client'
 
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import Input from '../components/Input';
+
+export function logInAndRedirect(userName: string, authKey: string) {
+	localStorage.setItem("userName", userName);
+	localStorage.setItem("authKey", authKey);
+	window.location.assign('..');
+}
 
 export default function Login() {
 	const [userName, setUserName] = useState('');
@@ -16,6 +23,10 @@ export default function Login() {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ userName, password }),
 		});
+
+		if (!response.ok) return;
+		const authKey = await response.text();
+		logInAndRedirect(userName, authKey);
 	};
 
   return (
@@ -25,6 +36,7 @@ export default function Login() {
 				label="Username"
 				value={userName}
 				onChange={({ target }) => { setUserName(target.value); }}
+				required
 			/>
 			<Input
 				id="password"
@@ -32,6 +44,7 @@ export default function Login() {
 				label="Password"
 				value={password}
 				onChange={({ target }) => { setPassword(target.value); }}
+				required
 			/>
 			<button type="submit">Login</button>
 		</form>

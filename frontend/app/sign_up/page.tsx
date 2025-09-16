@@ -5,6 +5,8 @@ import { useState } from 'react';
 import Input from '../components/Input';
 import InlineMessage from '../components/InlineMessage';
 
+import { logInAndRedirect } from '../login/page';
+
 const FORM = {
   email1: {
 		type: 'email',
@@ -59,7 +61,13 @@ export default function SignUp() {
 			body: JSON.stringify(formData),
 		});
 
-		setErrorMessage(`${response.status}: ${response.statusText}`);
+		if (!response.ok) {
+			setErrorMessage(`${response.status}: ${response.statusText}`);
+			return;
+		}
+
+		const authKey = await response.text();
+		logInAndRedirect(formData.userName, authKey);
 	}
 
 	const updateForm = (key, value) => {
