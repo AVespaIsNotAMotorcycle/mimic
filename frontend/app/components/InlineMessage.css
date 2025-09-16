@@ -1,0 +1,22 @@
+.inline-message {
+  position: relative;
+  border-radius: var(--border-radius);
+	overflow: hidden;
+  display: flex;
+	flex-direction: row;
+	--padding: 0.5rem;
+  padding: var(--padding) calc(var(--padding) * 2);
+	gap: var(--padding);
+  background-color: rgba(var(--rgb), 0.2);
+}
+.inline-message::before {
+  content: '';
+	position: absolute;
+	width: 0.5rem;
+	top: 0;
+	bottom: 0;
+	left: calc(var(--padding) * -0.25);
+  background-color: rgba(var(--rgb), 1);
+}
+.inline-message.error { --rgb: 255, 0, 0; }
+.inline-message.success { --rgb: 0, 255, 0; }
