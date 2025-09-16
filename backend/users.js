@@ -7,7 +7,7 @@ async function createAuthKey(userName) {
 	const lastUsed = Date.now();
 	const hash = createHash('sha256');
 	hash.update(userName);
-	hash.update(lastUsed);
+	hash.update(lastUsed.toString());
 	const key = hash.digest('hex');
 	await mongoCollection('authKeys')
 		.insertOne({
@@ -64,13 +64,15 @@ async function createUser(req, res, next) {
 	} = req.body;
 	const passwordHash = await hashPassword(password1);
 	try {
-	await mongoCollection('users')
-		.insertOne({
-			userName,
-			displayName,
-			email: email1,
-			passwordHash,
-		});
+  	await mongoCollection('users')
+  		.insertOne({
+  			userName,
+  			displayName,
+  			email: email1,
+  			passwordHash,
+  		});
+		const authKey = await createAuthKey(userName);
+		res.send(authKey);
 	} catch (error) {
 		if (error.errorResponse.code === 11000) {
 			const message = 'Someone already has that username.';
@@ -78,9 +80,6 @@ async function createUser(req, res, next) {
 		} else {
 			next(error);
 		}
-	} finally {
-		const authKey = await createAuthKey(userName);
-		res.send(authKey);
 	}
 }
 
