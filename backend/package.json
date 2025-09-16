@@ -7,9 +7,9 @@
     "nodemon": "^3.1.10"
   },
   "scripts": {
-    "start": "tsc && node --env-file=.env --watch ./app.js",
+    "start": "tsc && node --env-file=.env ./app.js",
     "lint": "eslint",
-    "start-dev": "nodemon --exec \"npm run lint && npm run start\""
+    "start-dev": "nodemon --verbose --ignore \"./dist/\" --exec \"npm run lint && npm run start\""
   },
   "devDependencies": {
     "@eslint/css": "^0.11.0",

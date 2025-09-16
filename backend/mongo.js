@@ -1,5 +1,5 @@
-import MongoClient from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 const client = new MongoClient(process.env.MIMIC_DB_CONNECTION_STRING);
 
-module.exports = client;
+export default client;

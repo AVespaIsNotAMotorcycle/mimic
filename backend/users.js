@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 
-import mongoConnection from './mongo';
-import posts from './posts';
+import mongoConnection from './mongo.js';
+import posts from './posts.js';
 
 async function createAuthKey(userName) {
 	const lastUsed = Date.now();
@@ -20,7 +20,7 @@ async function createAuthKey(userName) {
 	return key;
 }
 
-function hashPassword(password) {
+export function hashPassword(password) {
 	const hash = createHash('sha256');
 	hash.update(password);
 	return hash.digest('hex');
@@ -54,7 +54,7 @@ async function login(req, res, next) {
 	res.send(authKey);
 }
 
-async function getUser(userName) {
+export async function getUser(userName) {
 	const user = await mongoConnection.db('mimic').collection('users').findOne({ userName });
 	return { ...user, posts: posts.getPostsFromUser(userName) };
 }
@@ -89,7 +89,7 @@ async function createUser(req, res, next) {
 	}
 }
 
-function createEndpoints(app) {
+export default function createEndpoints(app) {
   app.get('/user/:userName', async (req, res) => {
   	const { userName } = req.params;
   	const user = await getUser(userName);
@@ -98,10 +98,4 @@ function createEndpoints(app) {
 
 	app.post('/user/:userName', createUser);
 	app.post('/login', login);
-}
-
-module.exports = {
-  hashPassword,
-	getUser,
-  createEndpoints,
 }

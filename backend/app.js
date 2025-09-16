@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 
-import mongoConnection from './mongo';
-import posts from './posts';
-import users from './users';
+import mongoConnection from './mongo.js';
+import posts from './posts.js';
+import users from './users.js';
 
 const app = express()
 const port = 8000
@@ -13,7 +13,7 @@ app.use(express.json())
 
 app.get('/posts', (req, res) => { res.send(posts.getAllPosts()); });
 
-users.createEndpoints(app);
+users(app);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
