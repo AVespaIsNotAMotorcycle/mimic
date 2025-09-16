@@ -82,12 +82,12 @@ export default function Timeline() {
 
   return (
 	  <>
-			<ComposePost />
 			<Tabs
 				tabs={TIMELINE_MODES}
 				selected={timelineMode}
 				onChange={setTimelineMode}
 			/>
+			<ComposePost />
 		  {posts.map((post) => <PostDisplay key={post._id} {...post} />)}
 		</>
 	);
