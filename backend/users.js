@@ -3,6 +3,22 @@ import { createHash } from 'crypto';
 import { mongoCollection } from './mongo.js';
 import { getPostsFromUser } from './posts.js';
 
+export async function authenticateKey(authKey) {
+  const record = await mongoCollection('authKeys')
+		.findOne({ authKey });
+  if (!record) return null;
+
+	const { lastUsed } = record;
+	const ONE_DAY = 1000 * 60 * 60 * 24;
+	const timestamp = Date.now();
+	if (timestamp - lastUsed > ONE_DAY) return null;
+
+	const { userName } = record;
+	const user = await mongoCollection('users')
+		.findOne({ userName });
+	return user;
+}
+
 async function createAuthKey(userName) {
 	const lastUsed = Date.now();
 	const hash = createHash('sha256');
