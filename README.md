@@ -4,7 +4,7 @@
 
 - [ ] Accounts
   - [x] Users can create accounts
-  - [ ] Users can log in
+  - [x] Users can log in
   - [ ] Users can change their passwords
   - [ ] Users use 2FA
   - [ ] Users can change their profile pictures
