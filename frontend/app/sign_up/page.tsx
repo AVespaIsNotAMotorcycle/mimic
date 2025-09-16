@@ -90,6 +90,7 @@ export default function SignUp() {
 					value={formData[key]}
 					onChange={({ target }) => { updateForm(key, target.value); }}
 					requirements={requirements}
+					required
 				/>
 			))}
 			<button type="submit">Submit</button>
