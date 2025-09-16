@@ -3,9 +3,24 @@
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "express": "^5.1.0",
-    "mongodb": "^6.19.0"
+    "mongodb": "^6.19.0",
+    "nodemon": "^3.1.10"
   },
   "scripts": {
-    "start": "node --env-file=.env --watch ./app.js"
+    "start": "tsc && node --env-file=.env --watch ./app.js",
+    "lint": "eslint",
+    "start-dev": "nodemon --exec \"npm run lint && npm run start\""
+  },
+  "devDependencies": {
+    "@eslint/css": "^0.11.0",
+    "@eslint/js": "^9.35.0",
+    "@eslint/json": "^0.13.2",
+    "@eslint/markdown": "^7.2.0",
+    "@types/express": "^5.0.3",
+    "eslint": "^9.35.0",
+    "globals": "^16.4.0",
+    "jiti": "^2.5.1",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.0"
   }
 }
