@@ -29,12 +29,7 @@ const POSTS = [
 		},
 ];
 
-function getAllPosts() { return POSTS; }
-function getPostsFromUser(user) {
+export function getAllPosts() { return POSTS; }
+export function getPostsFromUser(user) {
   return POSTS.filter(({ userName }) => userName === user);
 }
-
-module.exports = {
-  getAllPosts,
-	getPostsFromUser,
-};

@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 
 import mongoConnection from './mongo.js';
-import posts from './posts.js';
+import { getAllPosts } from './posts.js';
 import users from './users.js';
 
 const app = express()
@@ -11,7 +11,7 @@ const port = 8000
 app.use(cors())
 app.use(express.json())
 
-app.get('/posts', (req, res) => { res.send(posts.getAllPosts()); });
+app.get('/posts', (req, res) => { res.send(getAllPosts()); });
 
 users(app);
 

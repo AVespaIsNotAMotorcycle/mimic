@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 
 import mongoConnection from './mongo.js';
-import posts from './posts.js';
+import { getPostsFromUser } from './posts.js';
 
 async function createAuthKey(userName) {
 	const lastUsed = Date.now();
@@ -56,7 +56,7 @@ async function login(req, res, next) {
 
 export async function getUser(userName) {
 	const user = await mongoConnection.db('mimic').collection('users').findOne({ userName });
-	return { ...user, posts: posts.getPostsFromUser(userName) };
+	return { ...user, posts: getPostsFromUser(userName) };
 }
 
 async function createUser(req, res, next) {
