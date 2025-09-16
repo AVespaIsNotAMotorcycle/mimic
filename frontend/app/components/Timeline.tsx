@@ -76,7 +76,7 @@ export default async function Timeline() {
   return (
 	  <>
 			<ComposePost />
-		  {posts.map((post) => <PostDisplay key={post.id} {...post} />)}
+		  {posts.map((post) => <PostDisplay key={post._id} {...post} />)}
 		</>
 	);
 }
