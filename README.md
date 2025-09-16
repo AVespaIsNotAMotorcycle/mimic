@@ -14,12 +14,12 @@
   - [ ] Users can follow other accounts
 - [ ] Posts
   - [ ] Users can post
-    - [ ] Users can post text
+    - [x] Users can post text
     - [ ] Users can post images
     - [ ] Users can post video
     - [ ] Users can post polls
   - [ ] Users can view posts from other accounts
-    - [ ] Users can view all posts
+    - [x] Users can view all posts
     - [ ] Users can view posts only from accounts they follow
   - [ ] Users can like posts
   - [ ] Users can repost
