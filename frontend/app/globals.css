@@ -32,6 +32,12 @@ footer {
 	padding: 1rem;
 }
 
+header {
+	height: fit-content;
+	top: 0;
+  position: sticky;
+}
+
 .logo {
   font-weight: 800;
 	font-size: 2rem;
