@@ -85,7 +85,7 @@ export default function SignUp() {
 
   return (
 		<form onSubmit={onSubmit} id={FORM_ID}>
-			<InlineMessage type="error" message={errorMessage} />
+			{errorMessage && <InlineMessage type="error" message={errorMessage} />}
 			{Object.entries(FORM).map(([key, { label, type, requirements }]) => (
 				<Input
 					key={key}
