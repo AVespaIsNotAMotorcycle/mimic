@@ -11,8 +11,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const HOME_BUTTON = { icon: <HomeIcon />, label: 'Home', href: '/' };
 const MESSAGES_BUTTON = { icon: <EmailIcon />, label: 'Messages' };
 const PROFILE_BUTTON = { icon: <AccountBoxIcon />, label: 'Profile' };
-const LOGIN_BUTTON = { icon: <AccountBoxIcon />, label: 'Log in', href: '/login' };
-const LOGOUT_BUTTON = { icon: <AccountBoxIcon />, label: 'Log out', href: '/logout' };
+const LOGIN_BUTTON = { icon: <LoginIcon />, label: 'Log in', href: '/login' };
+const LOGOUT_BUTTON = { icon: <LogoutIcon />, label: 'Log out', href: '/logout' };
 
 const LOGGED_OUT_BUTTONS = [
 	HOME_BUTTON,
