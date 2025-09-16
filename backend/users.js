@@ -1,7 +1,7 @@
-const { createHash } = require('crypto');
+import { createHash } from 'crypto';
 
-const mongoConnection = require('./mongo');
-const posts = require('./posts');
+import mongoConnection from './mongo';
+import posts from './posts';
 
 async function createAuthKey(userName) {
 	const lastUsed = Date.now();
@@ -9,7 +9,7 @@ async function createAuthKey(userName) {
 	hash.update(userName);
 	hash.update(lastUsed);
 	const key = hash.digest('hex');
-	const user = await mongoConnection
+	await mongoConnection
 		.db('mimic')
 		.collection('authKeys')
 		.insertOne({
@@ -26,7 +26,6 @@ function hashPassword(password) {
 	return hash.digest('hex');
 }
 
-async function keyValid(userName, authKey) {}
 async function passwordValid(userName, password) {
 	console.log(`User ${userName} logging in with password ${password}`);
 	if (typeof userName !== 'string') return false;
@@ -69,7 +68,7 @@ async function createUser(req, res, next) {
 	} = req.body;
 	const passwordHash = await hashPassword(password1);
 	try {
-	const user = await mongoConnection
+	await mongoConnection
 		.db('mimic')
 		.collection('users')
 		.insertOne({

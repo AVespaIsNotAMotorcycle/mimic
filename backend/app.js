@@ -1,10 +1,9 @@
-const express = require('express')
-const cors = require('cors')
-const { createHash } = require('crypto');
+import express from 'express';
+import cors from 'cors';
 
-const mongoConnection = require('./mongo');
-const posts = require('./posts');
-const users = require('./users');
+import mongoConnection from './mongo';
+import posts from './posts';
+import users from './users';
 
 const app = express()
 const port = 8000
@@ -13,12 +12,6 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/posts', (req, res) => { res.send(posts.getAllPosts()); });
-
-function hashPassword(password) {
-	const hash = createHash('sha256');
-	hash.update(password);
-	return hash.digest('hex');
-}
 
 users.createEndpoints(app);
 
