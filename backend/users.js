@@ -21,24 +21,18 @@ async function createAuthKey(userName) {
 export function hashPassword(password) {
 	const hash = createHash('sha256');
 	hash.update(password);
-	return hash.digest('hex');
+	const digest = hash.digest('hex');
+  return digest;
 }
 
 async function passwordValid(userName, password) {
-	console.log(`User ${userName} logging in with password ${password}`);
-	if (typeof userName !== 'string') return false;
-	if (typeof password !== 'string') return false;
 	const hash = hashPassword(password);
-	const storedHash = await mongoCollection('users')
-		.findOne({ userName })
-		.passwordHash;
-	return hash === storedHash;
+	const userRecord = await mongoCollection('users').findOne({ userName });
+	return hash === userRecord.passwordHash;
 }
 
 async function login(req, res, next) {
-	console.log(req.body);
 	const { userName, password } = req.body;
-	console.log(`User ${userName} logging in with password ${password}`);
 	const validPassword = await passwordValid(userName, password);
 	if (!validPassword) {
 		next(Error('Username/password combination is invalid.'));
@@ -46,7 +40,6 @@ async function login(req, res, next) {
 	}
 
 	const authKey = await createAuthKey(userName);
-	console.log(`Login valid, authKey: ${authKey}`);
 	res.send(authKey);
 }
 
