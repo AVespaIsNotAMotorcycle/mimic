@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 
-import mongoConnection from './mongo.js';
+import { mongoCollection } from './mongo.js';
 import { getPostsFromUser } from './posts.js';
 
 async function createAuthKey(userName) {
@@ -9,9 +9,7 @@ async function createAuthKey(userName) {
 	hash.update(userName);
 	hash.update(lastUsed);
 	const key = hash.digest('hex');
-	await mongoConnection
-		.db('mimic')
-		.collection('authKeys')
+	await mongoCollection('authKeys')
 		.insertOne({
 			userName,
 			key,
@@ -31,9 +29,7 @@ async function passwordValid(userName, password) {
 	if (typeof userName !== 'string') return false;
 	if (typeof password !== 'string') return false;
 	const hash = hashPassword(password);
-	const storedHash = await mongoConnection
-		.db('mimic')
-		.collection('users')
+	const storedHash = await mongoCollection('users')
 		.findOne({ userName })
 		.passwordHash;
 	return hash === storedHash;
@@ -55,7 +51,7 @@ async function login(req, res, next) {
 }
 
 export async function getUser(userName) {
-	const user = await mongoConnection.db('mimic').collection('users').findOne({ userName });
+	const user = await mongoCollection('users').findOne({ userName });
 	return { ...user, posts: getPostsFromUser(userName) };
 }
 
@@ -68,9 +64,7 @@ async function createUser(req, res, next) {
 	} = req.body;
 	const passwordHash = await hashPassword(password1);
 	try {
-	await mongoConnection
-		.db('mimic')
-		.collection('users')
+	await mongoCollection('users')
 		.insertOne({
 			userName,
 			displayName,
