@@ -30,23 +30,26 @@ export default function Login() {
 	};
 
   return (
-		<form onSubmit={onSubmit}>
-			<Input
-				id="userName"
-				label="Username"
-				value={userName}
-				onChange={({ target }) => { setUserName(target.value); }}
-				required
-			/>
-			<Input
-				id="password"
-				type="password"
-				label="Password"
-				value={password}
-				onChange={({ target }) => { setPassword(target.value); }}
-				required
-			/>
-			<button type="submit">Login</button>
-		</form>
+		<>
+  		<form onSubmit={onSubmit}>
+  			<Input
+  				id="userName"
+  				label="Username"
+  				value={userName}
+  				onChange={({ target }) => { setUserName(target.value); }}
+  				required
+  			/>
+  			<Input
+  				id="password"
+  				type="password"
+  				label="Password"
+  				value={password}
+  				onChange={({ target }) => { setPassword(target.value); }}
+  				required
+  			/>
+  			<button type="submit">Login</button>
+  		</form>
+			<a href="/sign_up">No account? Sign up here</a>
+		</>
 	);
 }
