@@ -5,14 +5,14 @@ import { useState } from 'react';
 import Input from './Input';
 
 export default function ComposePost() {
+	const authKey = localStorage.getItem('authKey');
+
 	const [pending, setPending] = useState(false);
 	const [text, setText] = useState('');
 
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		setPending(true);
-
-		const authKey = localStorage.getItem('authKey');
 
 		const response = await fetch('http://localhost:8000/posts', {
 			method: 'POST',
@@ -26,6 +26,7 @@ export default function ComposePost() {
 		setPending(false);
 		if (response.ok) setText('');
 	}
+	if (!authKey) return null;
   return (
 		<form className="composepost" onSubmit={onSubmit} disabled={pending}>
 			<Input
