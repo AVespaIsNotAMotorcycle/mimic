@@ -73,9 +73,10 @@ async function createUser(req, res, next) {
 		});
 	} catch (error) {
 		if (error.errorResponse.code === 11000) {
-			next(Error('Someone already has that username.'));
+			const message = 'Someone already has that username.';
+			res.status(409).send(message);
 		} else {
-			next(Error('Something went wrong.'));
+			next(error);
 		}
 	} finally {
 		const authKey = await createAuthKey(userName);
