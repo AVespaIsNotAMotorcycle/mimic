@@ -1,5 +1,7 @@
 import { PostDisplay, PostHeading } from '../../components/Timeline';
 
+import FollowButton from './FollowButton';
+
 export default async function Profile({
 	params,
 }: {
@@ -8,11 +10,12 @@ export default async function Profile({
 	const { userName } = await params;
 	
   const data = await fetch(`http://localhost:8000/user/${userName}`);
+	const user = await data.json();
   const {
 		displayName,
 		profilePicture,
 		posts,
-	} = await data.json();
+	} = user;
 
 	return (
 		<>
@@ -21,6 +24,7 @@ export default async function Profile({
 				displayName={displayName}
 				profilePicture={profilePicture}
 			/>
+			<FollowButton user={user} />
 		  {posts.map((post) => <PostDisplay key={post.id} {...post} />)}
 		</>
 	);
