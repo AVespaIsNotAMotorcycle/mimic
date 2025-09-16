@@ -11,8 +11,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const HOME_BUTTON = { icon: <HomeIcon />, label: 'Home', href: '/' };
 const MESSAGES_BUTTON = { icon: <EmailIcon />, label: 'Messages' };
 const PROFILE_BUTTON = { icon: <AccountBoxIcon />, label: 'Profile' };
-const LOGIN_BUTTON = { icon: <AccountBoxIcon />, label: 'Log in', href: 'login' };
-const LOGOUT_BUTTON = { icon: <AccountBoxIcon />, label: 'Log out', href: 'logout' };
+const LOGIN_BUTTON = { icon: <AccountBoxIcon />, label: 'Log in', href: '/login' };
+const LOGOUT_BUTTON = { icon: <AccountBoxIcon />, label: 'Log out', href: '/logout' };
 
 const LOGGED_OUT_BUTTONS = [
 	HOME_BUTTON,
@@ -35,6 +35,7 @@ export default function Header() {
 	useEffect(() => {
 		const userName = localStorage.getItem('userName');
 		if (userName) {
+			PROFILE_BUTTON.href = `/user/${userName}`;
 			setButtons([...LOGGED_IN_BUTTONS]);
 		} else {
 			setButtons([...LOGGED_OUT_BUTTONS]);
