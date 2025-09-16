@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import Input from '../components/Input';
+import InlineMessage from '../components/InlineMessage';
 
 const FORM = {
   email1: {
@@ -47,6 +48,7 @@ const FORM_ID = 'signup_form';
 
 export default function SignUp() {
 	const [formData, setFormData] = useState({});
+	const [errorMessage, setErrorMessage] = useState('');
 
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -56,6 +58,8 @@ export default function SignUp() {
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(formData),
 		});
+
+		setErrorMessage(`${response.status}: ${response.statusText}`);
 	}
 
 	const updateForm = (key, value) => {
@@ -81,6 +85,7 @@ export default function SignUp() {
 
   return (
 		<form onSubmit={onSubmit} id={FORM_ID}>
+			<InlineMessage type="error" message={errorMessage} />
 			{Object.entries(FORM).map(([key, { label, type, requirements }]) => (
 				<Input
 					key={key}
