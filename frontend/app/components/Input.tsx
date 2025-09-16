@@ -11,6 +11,16 @@ function Field({
 	required,
 }) {
   switch (type) {
+		case 'textarea':
+			return (
+				<textarea
+					type={type}
+					id={inputID}
+					value={value}
+					onChange={onChange}
+					required={required}
+				/>
+			);
 		default:
 			return (
 				<input
