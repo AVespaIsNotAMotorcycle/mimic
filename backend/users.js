@@ -45,7 +45,8 @@ async function login(req, res, next) {
 
 export async function getUser(userName) {
 	const user = await mongoCollection('users').findOne({ userName });
-	return { ...user, posts: getPostsFromUser(userName) };
+	const posts = await getPostsFromUser(userName);
+	return { ...user, posts };
 }
 
 async function createUser(req, res, next) {
