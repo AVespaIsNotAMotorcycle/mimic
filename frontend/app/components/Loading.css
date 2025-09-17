@@ -1,0 +1,12 @@
+.loading-animation {
+	animation-name: loading-animation-spin;
+	animation-duration: 3s;
+	animation-fill-mode: forwards;
+	animation-iteration-count: infinite;
+}
+
+@keyframes loading-animation-spin {
+  0% { rotate: 0deg; }
+  50% { rotate: 360deg; }
+  100% { rotate: 720deg; }
+}
