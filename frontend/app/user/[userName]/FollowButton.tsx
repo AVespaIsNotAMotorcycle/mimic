@@ -10,8 +10,15 @@ function alreadyFollowing(user) {
 	return !!actualFollower;
 }
 
+function isSelf(user) {
+	const viewedUser = user.userName;
+	const viewingUser = localStorage.getItem('userName');
+	return viewedUser === viewingUser;
+}
+
 export default function FollowButton({ user }) {
 	const { following } = user;
+	if (isSelf(user)) return null;
 	if (alreadyFollowing(user)) {
 		return <button type="button">Unfollow</button>;
 	} else {
