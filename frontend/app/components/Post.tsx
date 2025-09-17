@@ -41,7 +41,9 @@ function userLikedPost(likes, userName) {
 }
 
 function PostFooting({ postID, likes: initialLikes }) {
-	const [likes, setLikes] = useState(initialLikes);
+	const [likes, setLikes] = useState(Array.isArray(initialLikes)
+		? initialLikes
+		: []);
 	const credentials = getCredentials();
 	const noCredentials = typeof credentials !== 'object'
 		|| !credentials.authKey
