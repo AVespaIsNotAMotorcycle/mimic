@@ -16,7 +16,7 @@ export default function createEndpoints(app) {
 		res.send(posts);
 	});
   app.post('/posts', async (req, res) => {
-		const authKey = req.headers.Authorization;
+		const authKey = req.headers.authorization;
 		const {
 			userName,
 			profilePicture,
