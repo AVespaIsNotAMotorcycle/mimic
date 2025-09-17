@@ -62,8 +62,12 @@ async function login(req, res, next) {
 	res.send(authKey);
 }
 
-export async function getUser(userName) {
+export async function getShortUser(userName) {
 	const user = await mongoCollection('users').findOne({ userName });
+	return user;
+}
+export async function getUser(userName) {
+	const user = await getShortUser(userName);
 	const posts = await getPostsFromUser(userName);
 	return { ...user, posts };
 }
