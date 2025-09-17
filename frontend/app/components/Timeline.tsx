@@ -6,6 +6,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
+import Image from './Image';
 import ComposePost from './ComposePost';
 import Tabs from './Tabs';
 
@@ -24,7 +25,7 @@ export function PostHeading({
 }) {
 	return (
 		<div className="post-heading">
-	  	<img src={profilePicture} className="profile-picture" />
+	  	<Image source={profilePicture} className="profile-picture" />
 			<div className="names">
 			  <span>{displayName}</span>
 			  <a href={`/user/${userName}`}>@{userName}</a>

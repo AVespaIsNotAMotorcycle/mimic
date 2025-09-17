@@ -1,4 +1,5 @@
 import { PostDisplay } from '../../components/Timeline';
+import Image from '../../components/Image';
 
 import FollowButton from './FollowButton';
 import './page.css';
@@ -15,14 +16,14 @@ function Heading({ user }) {
 	const imagesURL = 'http://localhost:8000/images/';
 	return (
 		<div className="profile">
-			<img
-				src={`${imagesURL}/${backgroundPicture}`}
+			<Image
+				source={backgroundPicture}
 				className="background-picture"
 			/>
 			<div className="profile-heading">
 				<div className="profile-picture-container">
-					<img
-						src={`${imagesURL}/${profilePicture}`}
+					<Image
+						source={profilePicture}
 						className="profile-picture"
 					/>
 				</div>
