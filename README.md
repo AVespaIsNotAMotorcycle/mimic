@@ -11,7 +11,7 @@
   - [ ] Users can change their display names
   - [ ] Users can change their user names
   - [ ] Users can change their bios
-  - [ ] Users can follow other accounts
+  - [x] Users can follow other accounts
 - [ ] Posts
   - [ ] Users can post
     - [x] Users can post text
