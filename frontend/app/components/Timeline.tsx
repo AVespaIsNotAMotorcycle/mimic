@@ -14,18 +14,20 @@ interface Post {
   id: string;
 	userName: string;
 	displayName: string;
-	profilePicture: string;
 	text: string;
 };
 
 export function PostHeading({
 	userName,
 	displayName,
-	profilePicture,
 }) {
 	return (
 		<div className="post-heading">
-	  	<Image source={profilePicture} className="profile-picture" />
+	  	<Image
+				source={userName}
+				pathType="userName"
+				className="profile-picture"
+			/>
 			<div className="names">
 			  <span>{displayName}</span>
 			  <a href={`/user/${userName}`}>@{userName}</a>
@@ -37,7 +39,6 @@ export function PostHeading({
 export function PostDisplay({
 	userName,
 	displayName,
-	profilePicture,
 	text,
 }) {
   return (
@@ -45,7 +46,6 @@ export function PostDisplay({
 			<PostHeading
 				userName={userName}
 				displayName={displayName}
-				profilePicture={profilePicture}
 			/>
 			<p>
 			  {text}

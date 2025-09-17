@@ -62,6 +62,15 @@ async function login(req, res, next) {
 	res.send(authKey);
 }
 
+async function getProfilePicture(req, res) {
+	console.log('getProfilePicture');
+	const { userName } = req.params;
+	console.log(`Getting profile pic for ${userName}`);
+	const user = await mongoCollection('users').findOne({ userName });
+	if (!user) res.status(404).send('User could not be found.');
+	const { profilePicture } = user;
+	res.redirect(`/images/${profilePicture}`);
+}
 export async function getShortUser(userName) {
 	const user = await mongoCollection('users').findOne({ userName });
 	return user;
@@ -161,6 +170,7 @@ export default function createEndpoints(app) {
   	const user = await getUser(userName);
   	res.send(user);
   });
+  app.get('/user/:userName/profilePicture', getProfilePicture);
 
 	app.post('/user/:userName/follow', followUser);
 	app.post('/user/:userName/unfollow', unfollowUser);
