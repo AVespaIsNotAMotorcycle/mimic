@@ -3,11 +3,11 @@ import { authenticateKey } from './users.js';
 
 export async function getAllPosts() {
 	const posts = await mongoCollection('posts').find().toArray();
-	return posts;
+	return posts.reverse();
 }
 export async function getPostsFromUser(userName) {
 	const posts = await mongoCollection('posts').find({ userName }).toArray();
-	return posts;
+	return posts.reverse();
 }
 
 export default function createEndpoints(app) {
