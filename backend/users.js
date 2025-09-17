@@ -93,7 +93,7 @@ async function createUser(req, res, next) {
 	}
 }
 
-async function followUser(req, res) {
+async function followOrUnfollowUser(req, res, action) {
 	const { userName } = req.params;
 	const authKey = req.headers.authorization;
 	if (!authKey) { res.status(401).send('Bad auth key'); return; }
@@ -104,14 +104,18 @@ async function followUser(req, res) {
 	const followee = await mongoCollection('users').findOne({ userName });
 	if (!followee) { res.status(404); return; }
 
+	const operator = action === 'follow' ? '$addToSet' : '$pullAll';
+	const operand = action === 'follow' ? follower.userName : [follower.userName];
 	await mongoCollection('users')
 		.updateOne(
 			{ userName },
-			{ '$addToSet': { followers: follower.userName } },
+			{ [operator]: { followers: operand } },
 		);
 
 	res.status(200).send('OK');
 }
+async function followUser(req, res) { followOrUnfollowUser(req, res, 'follow'); }
+async function unfollowUser(req, res) { followOrUnfollowUser(req, res, 'unfollow'); }
 
 export default function createEndpoints(app) {
   app.get('/user/:userName', async (req, res) => {
@@ -121,6 +125,7 @@ export default function createEndpoints(app) {
   });
 
 	app.post('/user/:userName/follow', followUser);
+	app.post('/user/:userName/unfollow', unfollowUser);
 	app.post('/user/:userName', createUser);
 	app.post('/login', login);
 }
