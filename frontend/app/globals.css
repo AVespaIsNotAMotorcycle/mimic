@@ -65,7 +65,7 @@ article.post {
 	padding: 1rem;
   border-top: 1px solid var(--color-border);
 }
-.post-heading img {
+img.profile-picture {
   width: 4rem;
 	aspect-ratio: 1 / 1;
 	border-radius: 50%;

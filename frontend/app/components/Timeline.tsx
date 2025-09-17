@@ -24,7 +24,7 @@ export function PostHeading({
 }) {
 	return (
 		<div className="post-heading">
-	  	<img src={profilePicture} />
+	  	<img src={profilePicture} className="profile-picture" />
 			<div className="names">
 			  <span>{displayName}</span>
 			  <a href={`/user/${userName}`}>@{userName}</a>

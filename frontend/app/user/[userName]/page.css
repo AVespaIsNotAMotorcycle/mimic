@@ -1,0 +1,28 @@
+.profile .background-picture {
+	width: 100%;
+	height: 10rem;
+}
+
+.profile .profile-bio {
+	padding: 1rem;
+}
+.profile .profile-heading {
+	display: flex;
+	gap: 1rem;
+	padding: 0 1rem;
+}
+
+.profile .profile-heading * {
+}
+.profile .profile-heading .profile-picture {
+	width: 6rem;
+	margin-top: -1rem;
+	outline: 5px solid var(--color-background);
+}
+.profile .profile-heading .names h1 {
+	margin: 0;
+	font-size: 1.25rem;
+}
+.profile .profile-heading .follow-button-container {
+	margin-left: auto;
+}
