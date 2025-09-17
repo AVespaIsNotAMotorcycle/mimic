@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { mongoCollection } from './mongo.js';
 import { authenticateKey } from './users.js';
 
@@ -17,6 +18,23 @@ export async function getPostsFromUser(userName) {
 	const posts = await mongoCollection('posts').find({ userName }).toArray();
 	return posts.reverse();
 }
+
+async function alterLike(req, res, action) {
+	const { post } = req.params;
+
+	const authKey = req.headers.authorization;
+	const { userName } = await authenticateKey(authKey);
+
+	const operator = action === 'like' ? '$addToSet' : '$pullAll';
+	const operand = action === 'like' ? userName : [userName];
+	await mongoCollection('posts')
+		.updateOne(
+			{ '_id': new ObjectId(post) },
+			{ [operator]: { likes: operand } },
+		);
+}
+async function likePost(req, res) { alterLike(req, res, 'like'); }
+async function unlikePost(req, res) { alterLike(req, res, 'unlike'); }
 
 export default function createEndpoints(app) {
   app.get('/posts', async (req, res) => {
@@ -47,4 +65,7 @@ export default function createEndpoints(app) {
 	});
 
 	app.get('/posts/followed/:userName', getPostsFromFollowed);
+
+	app.put('/posts/:post/like', likePost);
+	app.put('/posts/:post/unlike', unlikePost);
 }

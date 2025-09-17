@@ -63,9 +63,7 @@ async function login(req, res, next) {
 }
 
 async function getProfilePicture(req, res) {
-	console.log('getProfilePicture');
 	const { userName } = req.params;
-	console.log(`Getting profile pic for ${userName}`);
 	const user = await mongoCollection('users').findOne({ userName });
 	if (!user) res.status(404).send('User could not be found.');
 	const { profilePicture } = user;
