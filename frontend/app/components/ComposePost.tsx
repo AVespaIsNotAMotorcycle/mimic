@@ -4,8 +4,14 @@ import { useState } from 'react';
 
 import Input from './Input';
 
-export default function ComposePost() {
+function getAuthKey() {
+	if (typeof localStorage === 'undefined') return undefined;
 	const authKey = localStorage.getItem('authKey');
+	return authKey;
+}
+
+export default function ComposePost() {
+	const authKey = getAuthKey();
 
 	const [pending, setPending] = useState(false);
 	const [text, setText] = useState('');
