@@ -81,11 +81,16 @@ img.profile-picture {
 }
 
 article.post .footing,
-article.post .footing span {
+article.post .footing button {
   display: flex;
+	align-items: center;
+	background: transparent;
 }
+
+article.post .footing button.likes.liked { color: pink; }
+
 article.post .footing { gap: 1rem; }
-article.post .footing span { gap: 0.5rem; }
+article.post .footing button { gap: 0.5rem; }
 
 form {
 	display: flex;

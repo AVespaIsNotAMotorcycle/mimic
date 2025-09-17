@@ -9,6 +9,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import Image from './Image';
 import ComposePost from './ComposePost';
 import Tabs from './Tabs';
+import PostDisplay from './Post';
 
 interface Post {
   id: string;
@@ -16,57 +17,6 @@ interface Post {
 	displayName: string;
 	text: string;
 };
-
-export function PostHeading({
-	userName,
-	displayName,
-}) {
-	return (
-		<div className="post-heading">
-	  	<Image
-				source={userName}
-				pathType="userName"
-				className="profile-picture"
-			/>
-			<div className="names">
-			  <span>{displayName}</span>
-			  <a href={`/user/${userName}`}>@{userName}</a>
-			</div>
-		</div>
-	);
-}
-
-export function PostDisplay({
-	userName,
-	displayName,
-	text,
-}) {
-  return (
-	  <article className="post">
-			<PostHeading
-				userName={userName}
-				displayName={displayName}
-			/>
-			<p>
-			  {text}
-		  </p>
-			<div className="footing">
-				<span className="likes">
-					<FavoriteBorderIcon />
-					324
-				</span>
-				<span className="reposts">
-					<RepeatIcon />
-					34
-				</span>
-				<span className="comments">
-					<ChatBubbleOutlineIcon />
-					23
-				</span>
-			</div>
-	  </article>
-	);
-}
 
 const TIMELINE_MODES = [
   { id: 'all', label: 'All posts' },

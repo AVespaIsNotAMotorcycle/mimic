@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { getCredentials } from '../utils';
+
 import Input from '../components/Input';
 import Loading from '../components/Loading';
 
@@ -26,12 +28,6 @@ const FORM = {
 	},
 };
 
-function getCredentials() {
-	if (typeof localStorage === 'undefined') return undefined;
-	const userName = localStorage.getItem('userName');
-	const authKey = localStorage.getItem('authKey');
-	return { userName, authKey };
-}
 function createMultipartData(formData) {
 	const multipartData = new FormData();
 	Object.entries(formData)
