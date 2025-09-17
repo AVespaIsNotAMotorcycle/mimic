@@ -93,6 +93,24 @@ async function createUser(req, res, next) {
 	}
 }
 
+async function alterFollowersList(followerName, followeeName, action) {
+	const operator = action === 'follow' ? '$addToSet' : '$pullAll';
+	const operand = action === 'follow' ? followerName : [followerName];
+	await mongoCollection('users')
+		.updateOne(
+			{ userName:  followeeName },
+			{ [operator]: { followers: operand } },
+		);
+}
+async function alterFollowingList(followerName, followeeName, action) {
+	const operator = action === 'follow' ? '$addToSet' : '$pullAll';
+	const operand = action === 'follow' ? followeeName : [followeeName];
+	await mongoCollection('users')
+		.updateOne(
+			{ userName:  followerName },
+			{ [operator]: { following: operand } },
+		);
+}
 async function followOrUnfollowUser(req, res, action) {
 	const { userName } = req.params;
 	const authKey = req.headers.authorization;
@@ -104,13 +122,8 @@ async function followOrUnfollowUser(req, res, action) {
 	const followee = await mongoCollection('users').findOne({ userName });
 	if (!followee) { res.status(404); return; }
 
-	const operator = action === 'follow' ? '$addToSet' : '$pullAll';
-	const operand = action === 'follow' ? follower.userName : [follower.userName];
-	await mongoCollection('users')
-		.updateOne(
-			{ userName },
-			{ [operator]: { followers: operand } },
-		);
+	await alterFollowersList(follower.userName, userName, action);
+	await alterFollowingList(follower.userName, userName, action);
 
 	res.status(200).send('OK');
 }
