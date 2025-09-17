@@ -13,7 +13,6 @@ export async function getPostsFromUser(userName) {
 export default function createEndpoints(app) {
   app.get('/posts', async (req, res) => {
 		const posts = await getAllPosts();
-		console.log(posts);
 		res.send(posts);
 	});
   app.post('/posts', async (req, res) => {

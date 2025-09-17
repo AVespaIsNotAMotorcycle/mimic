@@ -24,14 +24,14 @@ async function createAuthKey(userName) {
 	const hash = createHash('sha256');
 	hash.update(userName);
 	hash.update(lastUsed.toString());
-	const key = hash.digest('hex');
+	const authKey = hash.digest('hex');
 	await mongoCollection('authKeys')
 		.insertOne({
 			userName,
-			key,
+			authKey,
 			lastUsed,
 		});
-	return key;
+	return authKey;
 }
 
 export function hashPassword(password) {
@@ -93,6 +93,26 @@ async function createUser(req, res, next) {
 	}
 }
 
+async function followUser(req, res) {
+	const { userName } = req.params;
+	const authKey = req.headers.authorization;
+	if (!authKey) { res.status(401).send('Bad auth key'); return; }
+
+	const follower = await authenticateKey(authKey);
+	if (!follower) { res.status(401); return; }
+
+	const followee = await mongoCollection('users').findOne({ userName });
+	if (!followee) { res.status(404); return; }
+
+	await mongoCollection('users')
+		.updateOne(
+			{ userName },
+			{ '$addToSet': { followers: follower.userName } },
+		);
+
+	res.status(200).send('OK');
+}
+
 export default function createEndpoints(app) {
   app.get('/user/:userName', async (req, res) => {
   	const { userName } = req.params;
@@ -100,6 +120,7 @@ export default function createEndpoints(app) {
   	res.send(user);
   });
 
+	app.post('/user/:userName/follow', followUser);
 	app.post('/user/:userName', createUser);
 	app.post('/login', login);
 }
