@@ -27,7 +27,6 @@ export default function createEndpoints(app) {
 		const authKey = req.headers.authorization;
 		const {
 			userName,
-			profilePicture,
 			displayName,
 		} = await authenticateKey(authKey);
 
@@ -40,7 +39,6 @@ export default function createEndpoints(app) {
 		const { text } = req.body;
 		await mongoCollection('posts').insertOne({
 			userName,
-			profilePicture,
 			displayName,
 			text,
 		});
