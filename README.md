@@ -7,10 +7,10 @@
   - [x] Users can log in
   - [ ] Users can change their passwords
   - [ ] Users use 2FA
-  - [ ] Users can change their profile pictures
-  - [ ] Users can change their display names
-  - [ ] Users can change their user names
-  - [ ] Users can change their bios
+  - [x] Users can change their profile pictures
+  - [x] Users can change their display names
+  - [x] Users can change their user names
+  - [x] Users can change their bios
   - [x] Users can follow other accounts
 - [ ] Posts
   - [ ] Users can post

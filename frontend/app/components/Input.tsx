@@ -11,6 +11,16 @@ function Field({
 	required,
 }) {
   switch (type) {
+		case 'image':
+			return (
+				<input
+					type="file"
+					accept=".jpg,.png,.jpeg"
+					id={inputID}
+					onChange={onChange}
+					required={required}
+				/>
+			);
 		case 'textarea':
 			return (
 				<textarea

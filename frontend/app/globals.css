@@ -92,6 +92,21 @@ form {
 	flex-direction: column;
 }
 
+.button-group {
+	margin-left: auto;
+	display: flex;
+	gap: 1rem;
+}
+.button-group button:not(:last-child) {
+	box-sizing: border-box;
+  background: transparent;
+	outline: 5px solid var(--munsell);
+	outline-offset: -5px;
+}
+.button-group button:not(:last-child):hover,
+.button-group button:not(:last-child):focus {
+	outline: 7px solid var(--munsell);
+}
 button {
   padding: 1rem;
   margin: 1rem 0;

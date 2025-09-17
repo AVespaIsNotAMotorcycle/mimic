@@ -1,7 +1,10 @@
+import multer from 'multer';
 import { createHash } from 'crypto';
 
 import { mongoCollection } from './mongo.js';
 import { getPostsFromUser } from './posts.js';
+
+const imageUpload = multer({ dest: './public/images' });
 
 export async function authenticateKey(authKey) {
   const record = await mongoCollection('authKeys')
@@ -93,6 +96,24 @@ async function createUser(req, res, next) {
 	}
 }
 
+async function editUser(req, res) {
+	const updatedUser = { ...req.body };
+	Object.entries(req.files).forEach(([key, file]) => {
+		updatedUser[key] = file[0].filename;
+	})
+
+	const authKey = req.headers.authorization;
+	const { userName } = await authenticateKey(authKey);
+
+	await mongoCollection('users')
+		.updateOne(
+			{ userName },
+			{ '$set': updatedUser },
+		);
+
+	res.send('OK');
+}
+
 async function alterFollowersList(followerName, followeeName, action) {
 	const operator = action === 'follow' ? '$addToSet' : '$pullAll';
 	const operand = action === 'follow' ? followerName : [followerName];
@@ -140,5 +161,13 @@ export default function createEndpoints(app) {
 	app.post('/user/:userName/follow', followUser);
 	app.post('/user/:userName/unfollow', unfollowUser);
 	app.post('/user/:userName', createUser);
+	app.put(
+		'/user/:userName',
+		imageUpload.fields([
+			{ name: 'profilePicture', maxCount: 1 },
+			{ name: 'backgroundPicture', maxCount: 1 },
+		]),
+		editUser,
+	);
 	app.post('/login', login);
 }
