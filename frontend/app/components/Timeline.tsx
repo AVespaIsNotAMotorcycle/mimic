@@ -76,7 +76,11 @@ export default function Timeline() {
 	const [timelineMode, setTimelineMode] = useState('all');
 
 	useEffect(() => {
-		fetch('http://localhost:8000/posts')
+		const userName = localStorage.getItem('userName');
+		const endpoint = timelineMode === 'all'
+			? 'http://localhost:8000/posts'
+			: `http://localhost:8000/posts/followed/${userName}`
+		fetch(endpoint)
 			.then((data) => data.json().then(setPosts));
 	}, [timelineMode]);
 
