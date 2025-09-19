@@ -4,7 +4,7 @@ import ComposePost from '../../components/ComposePost';
 export default async function PostPage({
 	params,
 }: {
-	params: Promise<{ userName: string }>,
+	params: Promise<{ postID: string }>,
 }) {
 	const { postID } = await params;
   const data = await fetch(`http://localhost:8000/posts/${postID}`);

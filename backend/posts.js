@@ -2,15 +2,23 @@ import { ObjectId } from 'mongodb';
 import { mongoCollection } from './mongo.js';
 import { authenticateKey } from './users.js';
 
+async function getReplies(post) {
+	const { replies: replyIDs } = post;
+
+	if (!replyIDs) return [];
+	if (!Array.isArray(replyIDs)) return [];
+	if (!replyIDs.length) return [];
+  const replies = await mongoCollection('posts')
+  	.find({ '_id': { '$in': replyIDs} })
+  	.toArray();
+	return replies;
+}
 async function getPost(req, res) {
 	const { post: postID } = req.params;
 	const post = await mongoCollection('posts')
 		.findOne({ '_id': new ObjectId(postID) });
-	const { replies: replyIDs } = post;
-	const replies = await mongoCollection('posts')
-		.find({ '_id': { '$in': replyIDs} })
-		.toArray();
-	post.replies = replies;
+
+	post.replies = await getReplies(post);
 	res.send(post);
 }
 
