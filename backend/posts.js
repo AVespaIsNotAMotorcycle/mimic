@@ -6,6 +6,11 @@ async function getPost(req, res) {
 	const { post: postID } = req.params;
 	const post = await mongoCollection('posts')
 		.findOne({ '_id': new ObjectId(postID) });
+	const { replies: replyIDs } = post;
+	const replies = await mongoCollection('posts')
+		.find({ '_id': { '$in': replyIDs} })
+		.toArray();
+	post.replies = replies;
 	res.send(post);
 }
 
@@ -61,12 +66,20 @@ export default function createEndpoints(app) {
 			return;
 		}
 
-		const { text } = req.body;
-		await mongoCollection('posts').insertOne({
+		const { text, replyTo } = req.body;
+		const { insertedId } = await mongoCollection('posts').insertOne({
 			userName,
 			displayName,
 			text,
+			replyTo,
 		});
+		if (replyTo) {
+			await mongoCollection('posts')
+				.updateOne(
+					{ '_id': new ObjectId(replyTo) },
+					{ '$addToSet': { replies: insertedId } },
+				);
+		}
 
 		res.status(200).send('OK');
 	});

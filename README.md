@@ -25,7 +25,7 @@
   - [x] Users can like posts
   - [ ] Users can repost
   - [ ] Users can qrt
-  - [ ] Users can comment
+  - [x] Users can comment
   - [ ] Users can delete posts
 - [ ] Messages
   - [ ] Users can send messages

@@ -1,4 +1,5 @@
 import Post from '../../components/Post';
+import ComposePost from '../../components/ComposePost';
 
 export default async function PostPage({
 	params,
@@ -9,6 +10,13 @@ export default async function PostPage({
   const data = await fetch(`http://localhost:8000/posts/${postID}`);
 	const post = await data.json();
 	return (
-		<Post {...post} noLink />
+		<>
+			<Post {...post} noLink />
+			<ComposePost
+				prompt={`Reply to @${post.userName}`}
+				replyTo={postID}
+			/>
+			{post.replies.map((reply) => <Post key={reply._id} {...reply} />)}
+		</>
 	);
 }

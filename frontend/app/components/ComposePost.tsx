@@ -10,7 +10,10 @@ function getAuthKey() {
 	return authKey;
 }
 
-export default function ComposePost() {
+export default function ComposePost({
+  prompt = 'Compose post:',
+	replyTo,
+}) {
 	const authKey = getAuthKey();
 
 	const [pending, setPending] = useState(false);
@@ -20,13 +23,15 @@ export default function ComposePost() {
 		event.preventDefault();
 		setPending(true);
 
+		const body = { text };
+		if (replyTo) body.replyTo = replyTo;
 		const response = await fetch('http://localhost:8000/posts', {
 			method: 'POST',
 			headers: {
 				"Content-Type": "application/json",
 				"Authorization": authKey,
 			},
-			body: JSON.stringify({ text }),
+			body: JSON.stringify(body),
 		});
 
 		setPending(false);
@@ -36,7 +41,7 @@ export default function ComposePost() {
   return (
 		<form className="composepost" onSubmit={onSubmit} disabled={pending}>
 			<Input
-				label="Compose post:"
+				label={prompt}
 				id="compose-post-field"
 				type="textarea"
 				value={text}
