@@ -15,6 +15,7 @@ import Tabs from './Tabs';
 function PostHeading({
 	userName,
 	displayName,
+	replyTo,
 }) {
 	return (
 		<div className="post-heading">
@@ -26,6 +27,14 @@ function PostHeading({
 			<div className="names">
 			  <span>{displayName}</span>
 			  <a href={`/user/${userName}`}>@{userName}</a>
+				{replyTo && (
+					<span>
+						{'Reply to '}
+						{typeof replyTo === 'string'
+							? <a href={`post/${replyTo}`}>this post</a>
+							: <a href={`post/${replyTo.userName}`}>{`@${replyTo.userName}`}</a>}
+					</span>
+				)}
 			</div>
 		</div>
 	);
@@ -94,12 +103,14 @@ export default function Post({
 	likes,
 	noLink = false,
 	replies = [],
+	replyTo,
 }) {
   return (
 	  <article className="post">
   		<PostHeading
   			userName={userName}
   			displayName={displayName}
+				replyTo={replyTo}
   		/>
 			{noLink
 				? <p className="post-text">{text}</p>
