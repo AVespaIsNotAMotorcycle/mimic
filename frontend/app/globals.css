@@ -64,12 +64,13 @@ nav ul a {
 main {
 	flex-grow: 1;
   max-width: 50rem;
-  border: 1px solid var(--color-border);
 }
 
+article.post + article.post {
+	border-top: 1px solid var(--munsell);
+}
 article.post {
 	padding: 1rem;
-  border-top: 1px solid var(--color-border);
 }
 img.profile-picture {
   width: 4rem;
@@ -79,11 +80,17 @@ img.profile-picture {
 .post-heading {
   display: flex;
 	gap: 1rem;
-  margin-bottom: 2rem;
 }
 .post-heading .names {
   display: flex;
 	flex-direction: column;
+}
+
+article.post .post-text { margin: 1rem 0; }
+
+article.post:has(a.post-text:hover),
+article.post:has(a.post-text:focus) {
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
 article.post .footing,
@@ -91,11 +98,15 @@ article.post .footing button {
   display: flex;
 	align-items: center;
 	background: transparent;
+	margin: 0;
 }
 
 article.post .footing button.likes.liked { color: pink; }
 
-article.post .footing { gap: 1rem; }
+article.post .footing {
+	gap: 1rem;
+	justify-content: space-between;
+}
 article.post .footing button { gap: 0.5rem; }
 
 form {
@@ -140,4 +151,11 @@ button:focus {
 
 button[type=submit] {
 	margin-left: auto;
+}
+
+.box {
+	margin: 2rem auto;
+	padding: 2rem;
+	border-radius: calc(var(--border-radius) * 2);
+	box-shadow: 0px 0px 8px grey;
 }

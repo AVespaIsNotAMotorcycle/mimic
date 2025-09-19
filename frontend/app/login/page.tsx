@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Input from '../components/Input';
+import Box from '../components/Box';
 
 export function logInAndRedirect(userName: string, authKey: string) {
 	localStorage.setItem("userName", userName);
@@ -30,7 +31,7 @@ export default function Login() {
 	};
 
   return (
-		<>
+		<Box>
   		<form onSubmit={onSubmit}>
   			<Input
   				id="userName"
@@ -50,6 +51,6 @@ export default function Login() {
   			<button type="submit">Login</button>
   		</form>
 			<a href="/sign_up">No account? Sign up here</a>
-		</>
+		</Box>
 	);
 }
