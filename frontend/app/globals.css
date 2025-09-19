@@ -20,6 +20,11 @@ html {
 a:link, a:visited { color: var(--munsell); }
 a:hover, a:active { color: var(--powder); }
 
+a.post-text {
+	color: inherit;
+	text-decoration: none;
+}
+
 body {
   display: flex;
   justify-content: center;

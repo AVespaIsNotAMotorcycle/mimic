@@ -2,6 +2,14 @@ import { ObjectId } from 'mongodb';
 import { mongoCollection } from './mongo.js';
 import { authenticateKey } from './users.js';
 
+async function getPost(req, res) {
+	const { post: postID } = req.params;
+	const post = await mongoCollection('posts')
+		.findOne({ '_id': new ObjectId(postID) });
+	console.log(post);
+	res.send(post);
+}
+
 export async function getAllPosts() {
 	const posts = await mongoCollection('posts').find().toArray();
 	return posts.reverse();
@@ -66,6 +74,7 @@ export default function createEndpoints(app) {
 
 	app.get('/posts/followed/:userName', getPostsFromFollowed);
 
+	app.get('/posts/:post', getPost);
 	app.put('/posts/:post/like', likePost);
 	app.put('/posts/:post/unlike', unlikePost);
 }

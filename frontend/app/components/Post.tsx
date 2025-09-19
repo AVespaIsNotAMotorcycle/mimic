@@ -92,16 +92,17 @@ export default function Post({
 	displayName,
 	text,
 	likes,
+	noLink = false,
 }) {
   return (
 	  <article className="post">
-			<PostHeading
-				userName={userName}
-				displayName={displayName}
-			/>
-			<p>
-			  {text}
-		  </p>
+  		<PostHeading
+  			userName={userName}
+  			displayName={displayName}
+  		/>
+			{noLink
+				? <p className="post-text">{text}</p>
+				: <a className="post-text" href={`/post/${postID}`}>{text}</a>}
 			<PostFooting postID={postID} likes={likes} />
 	  </article>
 	);
