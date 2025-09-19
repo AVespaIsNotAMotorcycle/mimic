@@ -6,7 +6,6 @@ async function getPost(req, res) {
 	const { post: postID } = req.params;
 	const post = await mongoCollection('posts')
 		.findOne({ '_id': new ObjectId(postID) });
-	console.log(post);
 	res.send(post);
 }
 
