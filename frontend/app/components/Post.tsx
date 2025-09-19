@@ -40,7 +40,7 @@ function userLikedPost(likes, userName) {
 	return likes.includes(userName);
 }
 
-function PostFooting({ postID, likes: initialLikes }) {
+function PostFooting({ postID, likes: initialLikes, replies }) {
 	const [likes, setLikes] = useState(Array.isArray(initialLikes)
 		? initialLikes
 		: []);
@@ -80,7 +80,7 @@ function PostFooting({ postID, likes: initialLikes }) {
 			</button>
 			<button className="comments">
 				<ChatBubbleOutlineIcon />
-				0
+				{replies.length}
 			</button>
 		</div>
 	);
@@ -93,6 +93,7 @@ export default function Post({
 	text,
 	likes,
 	noLink = false,
+	replies = [],
 }) {
   return (
 	  <article className="post">
@@ -103,7 +104,7 @@ export default function Post({
 			{noLink
 				? <p className="post-text">{text}</p>
 				: <a className="post-text" href={`/post/${postID}`}>{text}</a>}
-			<PostFooting postID={postID} likes={likes} />
+			<PostFooting postID={postID} likes={likes} replies={replies} />
 	  </article>
 	);
 }
