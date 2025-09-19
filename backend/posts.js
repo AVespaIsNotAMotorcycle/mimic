@@ -2,6 +2,14 @@ import { ObjectId } from 'mongodb';
 import { mongoCollection } from './mongo.js';
 import { authenticateKey } from './users.js';
 
+async function getReplyTo(post) {
+	const { replyTo } = post
+
+	if (!replyTo) return undefined;
+	const repliedPost = await mongoCollection('posts')
+		.findOne({ '_id': new ObjectId(replyTo) });
+	return repliedPost;
+}
 async function getReplies(post) {
 	const { replies: replyIDs } = post;
 
@@ -18,6 +26,7 @@ async function getPost(req, res) {
 	const post = await mongoCollection('posts')
 		.findOne({ '_id': new ObjectId(postID) });
 
+	post.replyTo = await getReplyTo(post);
 	post.replies = await getReplies(post);
 	res.send(post);
 }

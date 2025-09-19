@@ -11,6 +11,7 @@ export default async function PostPage({
 	const post = await data.json();
 	return (
 		<>
+			{post.replyTo && <Post {...post.replyTo} />}
 			<Post {...post} noLink />
 			<ComposePost
 				prompt={`Reply to @${post.userName}`}
