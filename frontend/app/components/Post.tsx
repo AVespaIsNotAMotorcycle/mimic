@@ -5,17 +5,68 @@ import { useState, useEffect } from 'react';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import DeleteIcon from '@mui/icons-material/DeleteOutline';
 
 import { getCredentials } from '../utils';
 
 import Image from './Image';
 import ComposePost from './ComposePost';
 import Tabs from './Tabs';
+import Popup from './Popup';
+import Loading from './Loading';
+
+function DeletePostButton({ postAuthor, postID, setDeleted }) {
+	const [confirming, setConfirming] = useState(false);
+	const [pendingRequest, setPendingRequest] = useState(false);
+	const { userName, authKey } = getCredentials();
+
+	if (!postID) return null;
+	if (!userName) return null;
+	if (userName !== postAuthor) return null;
+
+	function promptConfirm() { setConfirming(true); }
+	function cancel() { setConfirming(false); }
+	async function confirm() {
+		setPendingRequest(true);
+
+		const endpoint = `http://localhost:8000/posts/${postID}`;
+		await fetch(endpoint, {
+			method: 'DELETE',
+			headers: { "Authorization": authKey },
+		});
+
+		setPendingRequest(false);
+		setConfirming(false);
+		setDeleted(true);
+	}
+
+	const sharedButtonProps = {
+		type: 'button',
+		disabled: pendingRequest,
+	};
+	return (
+		<>
+			<button className="delete-post" type="button">
+				<DeleteIcon onClick={promptConfirm}/>
+			</button>
+			<Popup open={confirming}>
+				Are you sure you want to delete this post?
+				{pendingRequest && <div><Loading /></div>}
+				<div className="button-group">
+					<button {...sharedButtonProps} onClick={cancel}>Cancel</button>
+					<button {...sharedButtonProps} onClick={confirm}>Confirm</button>
+				</div>
+			</Popup>
+		</>
+	);
+}
 
 function PostHeading({
 	userName,
 	displayName,
 	replyTo,
+	postID,
+	setDeleted,
 }) {
 	return (
 		<div className="post-heading">
@@ -36,6 +87,11 @@ function PostHeading({
 					</span>
 				)}
 			</div>
+			<DeletePostButton
+				setDeleted={setDeleted}
+				postID={postID}
+				postAuthor={userName}
+			/>
 		</div>
 	);
 }
@@ -105,12 +161,22 @@ export default function Post({
 	replies = [],
 	replyTo,
 }) {
-  return (
+	const [deleted, setDeleted] = useState(false);
+	if (deleted) {
+		return (
+	  	<article className="post">
+				This post has been deleted.
+			</article>
+		);
+  }
+	return (
 	  <article className="post">
   		<PostHeading
   			userName={userName}
   			displayName={displayName}
 				replyTo={replyTo}
+				postID={postID}
+				setDeleted={setDeleted}
   		/>
 			{noLink
 				? <p className="post-text">{text}</p>

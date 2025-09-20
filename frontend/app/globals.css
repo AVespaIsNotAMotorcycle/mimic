@@ -93,12 +93,18 @@ article.post:has(a.post-text:focus) {
 	background-color: rgba(255, 255, 255, 0.1);
 }
 
+article.post button.delete-post,
+article.post .footing button {
+	background: transparent;
+	margin: 0;
+}
+
+article.post button.delete-post { margin-left: auto;}
+
 article.post .footing,
 article.post .footing button {
   display: flex;
 	align-items: center;
-	background: transparent;
-	margin: 0;
 }
 
 article.post .footing button.likes.liked { color: pink; }
@@ -118,6 +124,7 @@ form {
 	margin-left: auto;
 	display: flex;
 	gap: 1rem;
+	width: fit-content;
 }
 .button-group button:not(:last-child) {
 	box-sizing: border-box;
@@ -125,8 +132,8 @@ form {
 	outline: 5px solid var(--munsell);
 	outline-offset: -5px;
 }
-.button-group button:not(:last-child):hover,
-.button-group button:not(:last-child):focus {
+.button-group button:not(:disabled):not(:last-child):hover,
+.button-group button:not(disabled):not(:last-child):focus {
 	outline: 7px solid var(--munsell);
 }
 button {
@@ -141,13 +148,15 @@ button {
 	transition-properties: color background-color outline-width;
 	transition-duration: 0.2s;
 }
-button:hover,
-button:focus {
+button:not(:disabled):hover,
+button:not(:disabled):focus {
 	outline-width: 2px;
 	background-color: var(--powder);
 	color: var(--munsell);
 	cursor: pointer;
 }
+button:disabled:hover,
+button:disabled:focus { cursor: not-allowed; }
 
 button[type=submit] {
 	margin-left: auto;

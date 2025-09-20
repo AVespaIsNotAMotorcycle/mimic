@@ -30,6 +30,12 @@ async function getPost(req, res) {
 	post.replies = await getReplies(post);
 	res.send(post);
 }
+async function deletePost(req, res) {
+	const { post: postID } = req.params;
+	await mongoCollection('posts')
+		.deleteOne({ '_id': new ObjectId(postID) });
+	res.send('OK');
+}
 
 export async function getAllPosts() {
 	const posts = await mongoCollection('posts').find().toArray();
@@ -104,6 +110,7 @@ export default function createEndpoints(app) {
 	app.get('/posts/followed/:userName', getPostsFromFollowed);
 
 	app.get('/posts/:post', getPost);
+	app.delete('/posts/:post', deletePost);
 	app.put('/posts/:post/like', likePost);
 	app.put('/posts/:post/unlike', unlikePost);
 }
