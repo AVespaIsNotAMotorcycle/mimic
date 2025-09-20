@@ -15,7 +15,12 @@ import Tabs from './Tabs';
 import Popup from './Popup';
 import Loading from './Loading';
 
-function DeletePostButton({ postAuthor, postID, setDeleted }) {
+function DeletePostButton({
+	postAuthor,
+	postID,
+	setDeleted,
+	isQuote,
+}) {
 	const [confirming, setConfirming] = useState(false);
 	const [pendingRequest, setPendingRequest] = useState(false);
 	const { userName, authKey } = getCredentials();
@@ -23,6 +28,7 @@ function DeletePostButton({ postAuthor, postID, setDeleted }) {
 	if (!postID) return null;
 	if (!userName) return null;
 	if (userName !== postAuthor) return null;
+	if (isQuote) return null;
 
 	function promptConfirm() { setConfirming(true); }
 	function cancel() { setConfirming(false); }
@@ -67,6 +73,7 @@ function PostHeading({
 	replyTo,
 	postID,
 	setDeleted,
+	isQuote,
 }) {
 	return (
 		<div className="post-heading">
@@ -91,6 +98,7 @@ function PostHeading({
 				setDeleted={setDeleted}
 				postID={postID}
 				postAuthor={userName}
+				isQuote={isQuote}
 			/>
 		</div>
 	);
@@ -209,6 +217,7 @@ export default function Post({
 				replyTo={replyTo}
 				postID={postID}
 				setDeleted={setDeleted}
+				isQuote={isQuote}
   		/>
 			{noLink
 				? <p className="post-text">{text}</p>
@@ -219,7 +228,7 @@ export default function Post({
 					<Post {...quotedPost} isQuote />
 				</div>
 			)}
-			<PostFooting postID={postID} likes={likes} replies={replies} />
+			{!isQuote && <PostFooting postID={postID} likes={likes} replies={replies} />}
 	  </article>
 	);
 }
