@@ -1,10 +1,9 @@
 .popup-container {
-	position: absolute;
+	position: fixed;
 	inset: 0;
-	backdrop-filter: blur(1px);
+	backdrop-filter: blur(2px);
 }
 .popup-window {
-	position: sticky;
 	background: var(--color-background);
 	outline: 1px solid grey;
 	padding: 2rem;
