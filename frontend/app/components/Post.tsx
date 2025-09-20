@@ -105,7 +105,19 @@ function userLikedPost(likes, userName) {
 	return likes.includes(userName);
 }
 
+function QuoteForm({ open, quoteOf, closeFunction }) {
+	return (
+		<Popup open={open}>
+			<ComposePost
+				quoteOf={quoteOf}
+				onSuccess={closeFunction}
+			/>
+		</Popup>
+	);
+}
+
 function PostFooting({ postID, likes: initialLikes, replies }) {
+	const [quoting, setQuoting] = useState(false);
 	const [likes, setLikes] = useState(Array.isArray(initialLikes)
 		? initialLikes
 		: []);
@@ -127,27 +139,34 @@ function PostFooting({ postID, likes: initialLikes, replies }) {
 	}
 
 	return (
-		<div className="footing">
-			<button
-				className={[
-					'likes',
-					userLikedPost(likes, userName) ? 'liked' : 'not-liked',
-				].join(' ')}
-				onClick={togglePostLike}
-				disabled={noCredentials}
-			>
-				<FavoriteBorderIcon />
-				{likesCount(likes)}
-			</button>
-			<button className="reposts">
-				<RepeatIcon />
-				0
-			</button>
-			<button className="comments">
-				<ChatBubbleOutlineIcon />
-				{replies.length}
-			</button>
-		</div>
+		<>
+			<div className="footing">
+				<button
+					className={[
+						'likes',
+						userLikedPost(likes, userName) ? 'liked' : 'not-liked',
+					].join(' ')}
+					onClick={togglePostLike}
+					disabled={noCredentials}
+				>
+					<FavoriteBorderIcon />
+					{likesCount(likes)}
+				</button>
+				<button className="reposts" onClick={() => { setQuoting(true); }}>
+					<RepeatIcon />
+					0
+				</button>
+				<button className="comments">
+					<ChatBubbleOutlineIcon />
+					{replies.length}
+				</button>
+			</div>
+			<QuoteForm
+				open={quoting}
+				quoteOf={postID}
+				closeFunction={() => { setQuoting(false); }}
+			/>
+		</>
 	);
 }
 

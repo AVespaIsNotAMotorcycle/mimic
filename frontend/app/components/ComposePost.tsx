@@ -13,6 +13,8 @@ function getAuthKey() {
 export default function ComposePost({
   prompt = 'Compose post:',
 	replyTo,
+	quoteOf,
+	onSuccess = () => {},
 }) {
 	const authKey = getAuthKey();
 
@@ -25,6 +27,7 @@ export default function ComposePost({
 
 		const body = { text };
 		if (replyTo) body.replyTo = replyTo;
+		if (quoteOf) body.quoteOf = quoteOf;
 		const response = await fetch('http://localhost:8000/posts', {
 			method: 'POST',
 			headers: {
@@ -35,7 +38,7 @@ export default function ComposePost({
 		});
 
 		setPending(false);
-		if (response.ok) setText('');
+		if (response.ok) { setText(''); onSuccess(); }
 	}
 	if (!authKey) return null;
   return (
