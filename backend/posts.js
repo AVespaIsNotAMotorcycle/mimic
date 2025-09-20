@@ -89,12 +89,13 @@ export default function createEndpoints(app) {
 			return;
 		}
 
-		const { text, replyTo } = req.body;
+		const { text, replyTo, quoteOf } = req.body;
 		const { insertedId } = await mongoCollection('posts').insertOne({
 			userName,
 			displayName,
 			text,
 			replyTo,
+			quoteOf,
 		});
 		if (replyTo) {
 			await mongoCollection('posts')

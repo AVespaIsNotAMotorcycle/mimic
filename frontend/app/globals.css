@@ -72,6 +72,10 @@ article.post + article.post {
 article.post {
 	padding: 1rem;
 }
+article.post .quote {
+	outline: 1px solid grey;
+	border-radius: calc(var(--border-radius) * 2);
+}
 img.profile-picture {
   width: 4rem;
 	aspect-ratio: 1 / 1;
@@ -91,6 +95,11 @@ article.post .post-text { margin: 1rem 0; }
 article.post:has(a.post-text:hover),
 article.post:has(a.post-text:focus) {
 	background-color: rgba(255, 255, 255, 0.1);
+}
+
+article.post:has(article.post a.post-text:hover),
+article.post:has(article.post a.post-text:focus) {
+	background-color: transparent;
 }
 
 article.post button.delete-post,

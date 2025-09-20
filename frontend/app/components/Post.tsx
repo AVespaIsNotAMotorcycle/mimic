@@ -160,8 +160,11 @@ export default function Post({
 	noLink = false,
 	replies = [],
 	replyTo,
+	quoteOf,
+	isQuote,
 }) {
 	const [deleted, setDeleted] = useState(false);
+	const [quotedPost, setQuotedPost] = useState();
 	if (deleted) {
 		return (
 	  	<article className="post">
@@ -169,6 +172,16 @@ export default function Post({
 			</article>
 		);
   }
+
+	useEffect(() => {
+		if (!quoteOf) return;
+		if (quotedPost) return;
+		if (isQuote) return;
+
+		fetch(`http://localhost:8000/posts/${quoteOf}`)
+			.then((post) => { post.json().then(setQuotedPost); });
+	}, [quoteOf]);
+
 	return (
 	  <article className="post">
   		<PostHeading
@@ -181,6 +194,12 @@ export default function Post({
 			{noLink
 				? <p className="post-text">{text}</p>
 				: <a className="post-text" href={`/post/${postID}`}>{text}</a>}
+			{!isQuote && quoteOf && !quotedPost && <Loading />}
+			{quotedPost && (
+				<div className="quote">
+					<Post {...quotedPost} isQuote />
+				</div>
+			)}
 			<PostFooting postID={postID} likes={likes} replies={replies} />
 	  </article>
 	);
