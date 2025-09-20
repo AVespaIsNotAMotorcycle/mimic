@@ -23,8 +23,8 @@
     - [x] Users can view posts only from accounts they follow
     - [ ] User's preference between all/followed posts is saved
   - [x] Users can like posts
-  - [ ] Users can repost
-  - [ ] Users can qrt
+  - [x] Users can repost
+  - [x] Users can qrt
   - [x] Users can comment
   - [x] Users can delete posts
 - [ ] Messages
