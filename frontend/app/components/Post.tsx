@@ -124,8 +124,18 @@ function QuoteForm({ open, quoteOf, closeFunction }) {
 	);
 }
 
-function PostFooting({ postID, likes: initialLikes, replies }) {
+function PostFooting({
+	postID,
+	likes: initialLikes,
+	replies,
+	quotes: initialQuotes,
+	isQuote,
+}) {
 	const [quoting, setQuoting] = useState(false);
+
+	const [quotes, setQuotes] = useState(Array.isArray(initialQuotes)
+		? initialQuotes
+		: []);
 	const [likes, setLikes] = useState(Array.isArray(initialLikes)
 		? initialLikes
 		: []);
@@ -145,7 +155,12 @@ function PostFooting({ postID, likes: initialLikes, replies }) {
 		if (action === 'like') setLikes([...likes, userName]);
 		if (action === 'unlike') setLikes(likes.filter((name) => name !== userName));
 	}
+	function onQuote(quoteID) {
+		setQuoting(false);
+		setQuotes([...quotes, quoteID]);
+	}
 
+	if (isQuote) return null;
 	return (
 		<>
 			<div className="footing">
@@ -162,7 +177,7 @@ function PostFooting({ postID, likes: initialLikes, replies }) {
 				</button>
 				<button className="reposts" onClick={() => { setQuoting(true); }}>
 					<RepeatIcon />
-					0
+					{quotes.length}
 				</button>
 				<button className="comments">
 					<ChatBubbleOutlineIcon />
@@ -172,7 +187,7 @@ function PostFooting({ postID, likes: initialLikes, replies }) {
 			<QuoteForm
 				open={quoting}
 				quoteOf={postID}
-				closeFunction={() => { setQuoting(false); }}
+				closeFunction={onQuote}
 			/>
 		</>
 	);
@@ -189,6 +204,7 @@ export default function Post({
 	replyTo,
 	quoteOf,
 	isQuote,
+	quotes,
 }) {
 	const [deleted, setDeleted] = useState(false);
 	const [quotedPost, setQuotedPost] = useState();
@@ -228,7 +244,13 @@ export default function Post({
 					<Post {...quotedPost} isQuote />
 				</div>
 			)}
-			{!isQuote && <PostFooting postID={postID} likes={likes} replies={replies} />}
+			<PostFooting
+				postID={postID}
+				likes={likes}
+				replies={replies}
+				isQuote={isQuote}
+				quotes={quotes}
+			/>
 	  </article>
 	);
 }

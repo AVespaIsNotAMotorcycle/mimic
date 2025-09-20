@@ -104,8 +104,15 @@ export default function createEndpoints(app) {
 					{ '$addToSet': { replies: insertedId } },
 				);
 		}
+		if (quoteOf) {
+			await mongoCollection('posts')
+				.updateOne(
+					{ '_id': new ObjectId(quoteOf) },
+					{ '$addToSet': { quotes: insertedId } },
+				);
+		}
 
-		res.status(200).send('OK');
+		res.status(200).send(insertedId);
 	});
 
 	app.get('/posts/followed/:userName', getPostsFromFollowed);

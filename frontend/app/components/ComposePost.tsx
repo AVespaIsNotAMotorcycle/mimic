@@ -38,7 +38,10 @@ export default function ComposePost({
 		});
 
 		setPending(false);
-		if (response.ok) { setText(''); onSuccess(); }
+		if (response.ok) {
+			setText('');
+			response.json().then(onSuccess);
+		}
 	}
 	if (!authKey) return null;
   return (
