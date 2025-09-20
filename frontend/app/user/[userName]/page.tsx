@@ -1,4 +1,11 @@
-import { PostDisplay } from '../../components/Timeline';
+'use client'
+
+import axios from 'axios';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import Loading from '../../components/Loading';
+import Post from '../../components/Post';
 import Image from '../../components/Image';
 
 import FollowButton from './FollowButton';
@@ -43,25 +50,19 @@ function Heading({ user }) {
 	);
 }
 
-export default async function Profile({
-	params,
-}: {
-	params: Promise<{ userName: string }>,
-}) {
-	const { userName } = await params;
-	
-  const data = await fetch(`http://localhost:8000/user/${userName}`);
-	const user = await data.json();
-  const {
-		displayName,
-		profilePicture,
-		posts,
-	} = user;
+export default function Profile() {
+	const { userName } = useParams();
+	const [user, setUser] = useState();
 
+	useEffect(() => {
+		axios.get(`/user/${userName}`).then(({ data }) => { setUser(data); });
+	}, []);
+
+	if (!user) return <Loading />;
 	return (
 		<>
 			<Heading user={user} />
-		  {posts.map((post) => <PostDisplay key={post.id} {...post} />)}
+		  {user.posts.map((post) => <Post key={post._id} {...post} />)}
 		</>
 	);
 }

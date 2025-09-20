@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -13,21 +14,15 @@ export function logInAndRedirect(userName: string, authKey: string) {
 }
 
 export default function Login() {
+	axios.defaults.baseURL = 'http://localhost:8000';
 	const [userName, setUserName] = useState('');
 	const [password, setPassword] = useState('');
 
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		const response = await fetch('http://localhost:8000/login', {
-			method: 'POST',
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ userName, password }),
-		});
-
-		if (!response.ok) return;
-		const authKey = await response.text();
-		logInAndRedirect(userName, authKey);
+		axios.post('/login', { userName, password })
+			.then(({ data }) => { logInAndRedirect(userName, data); });
 	};
 
   return (

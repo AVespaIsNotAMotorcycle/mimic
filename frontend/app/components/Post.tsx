@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -35,11 +36,8 @@ function DeletePostButton({
 	async function confirm() {
 		setPendingRequest(true);
 
-		const endpoint = `http://localhost:8000/posts/${postID}`;
-		await fetch(endpoint, {
-			method: 'DELETE',
-			headers: { "Authorization": authKey },
-		});
+		const endpoint = `/posts/${postID}`;
+		await axios.delete(endpoint);
 
 		setPendingRequest(false);
 		setConfirming(false);
@@ -147,11 +145,8 @@ function PostFooting({
 	const userName = noCredentials ? '' : credentials.userName;
 	async function togglePostLike() {
 		const action = userLikedPost(likes, userName) ? 'unlike' : 'like';
-		const endpoint = `http://localhost:8000/posts/${postID}/${action}`;
-		fetch(endpoint, {
-			method: 'PUT',
-			headers: { "Authorization": credentials.authKey },
-		});
+		const endpoint = `/posts/${postID}/${action}`;
+		axios.put(endpoint);
 		if (action === 'like') setLikes([...likes, userName]);
 		if (action === 'unlike') setLikes(likes.filter((name) => name !== userName));
 	}
@@ -214,8 +209,8 @@ export default function Post({
 		if (quotedPost) return;
 		if (isQuote) return;
 
-		fetch(`http://localhost:8000/posts/${quoteOf}`)
-			.then((post) => { post.json().then(setQuotedPost); });
+		axios.get(`/posts/${quoteOf}`)
+			.then(({ data }) => { setQuotedPost(data); });
 	}, [quoteOf]);
 
 	if (deleted) {

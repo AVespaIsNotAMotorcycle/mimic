@@ -3,6 +3,7 @@ import "./globals.css";
 
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
+import AxiosGlobals from './components/AxiosGlobals';
 
 export const metadata: Metadata = {
   title: "Mimic",
@@ -17,6 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+				<AxiosGlobals />
 				<Sidebar />
 				<main>
         	{children}

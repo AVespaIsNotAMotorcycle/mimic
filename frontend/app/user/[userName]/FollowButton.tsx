@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios';
 import { useState } from 'react';
 
 import Loading from '../../components/Loading';
@@ -27,22 +28,15 @@ export default function FollowButton({ user }) {
 	const { userName } = user;
 	const authKey = localStorage.getItem('authKey');
 
-	async function request(action) {
+	function request(action) {
 		setPending(true);
 
-		try {
-			const request = await fetch(`http://localhost:8000/user/${userName}/${action}`, {
-  			method: 'POST',
-  			headers: {
-  				"Content-Type": "application/json",
-  				"Authorization": authKey,
-  			},
+		axios.post(`/user/${userName}/${action}`)
+			.then(() => {
+				if (action === 'follow') setFollowing(true);
+				if (action === 'unfollow') setFollowing(false);
+				setPending(false);
 			});
-		} catch {}
-
-		if (action === 'follow') setFollowing(true);
-		if (action === 'unfollow') setFollowing(false);
-		setPending(false);
 	}
 	function follow() { request('follow'); }
 	function unfollow() { request('unfollow'); }

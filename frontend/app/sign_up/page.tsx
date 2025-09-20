@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios';
 import { useState } from 'react';
 
 import Input from '../components/Input';
@@ -55,19 +56,11 @@ export default function SignUp() {
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		const response = await fetch(`http://localhost:8000/user/${formData.userName}`, {
-			method: 'POST',
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(formData),
-		});
-
-		if (!response.ok) {
-			setErrorMessage(`${response.status}: ${response.statusText}`);
-			return;
-		}
-
-		const authKey = await response.text();
-		logInAndRedirect(formData.userName, authKey);
+		axios.post(`/user/${formData.userName}`, formData)
+			.catch(({ status, statusText }) => {
+				setErrorMessage(`${status}: ${statusText}`);
+			})
+			.then(({ data }) => { logInAndRedirect(formData.userName, data); });
 	}
 
 	const updateForm = (key, value) => {

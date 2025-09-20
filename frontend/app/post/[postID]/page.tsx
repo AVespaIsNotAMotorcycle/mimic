@@ -1,14 +1,22 @@
+'use client'
+
+import axios from 'axios';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import Loading from '../../components/Loading';
 import Post from '../../components/Post';
 import ComposePost from '../../components/ComposePost';
 
-export default async function PostPage({
-	params,
-}: {
-	params: Promise<{ postID: string }>,
-}) {
-	const { postID } = await params;
-  const data = await fetch(`http://localhost:8000/posts/${postID}`);
-	const post = await data.json();
+export default function PostPage() {
+	const { postID } = useParams();
+	const [post, setPost] = useState();
+
+	useEffect(() => {
+  	axios.get(`/posts/${postID}`).then(({ data }) => { setPost(data); });
+	}, []);
+
+	if (!post) return <Loading />;
 	return (
 		<>
 			{post.replyTo && <Post {...post.replyTo} />}

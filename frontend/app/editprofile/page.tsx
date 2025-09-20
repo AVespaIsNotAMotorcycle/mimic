@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios';
 import { useState } from 'react';
 
 import { getCredentials } from '../utils';
@@ -38,11 +39,7 @@ function createMultipartData(formData) {
 }
 async function makeCall(credentials, multipartData) {
 	const { userName, authKey } = credentials;
-	return fetch(`http://localhost:8000/user/${userName}`, {
-		method: 'PUT',
-		headers: { "Authorization": authKey },
-		body: multipartData,
-	});
+	axios.put(`/user/${userName}`, multipartData);
 }
 
 export default function EditProfile() {

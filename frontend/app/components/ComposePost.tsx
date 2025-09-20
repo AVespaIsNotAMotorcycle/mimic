@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios';
 import { useState } from 'react';
 
 import Input from './Input';
@@ -28,20 +29,14 @@ export default function ComposePost({
 		const body = { text };
 		if (replyTo) body.replyTo = replyTo;
 		if (quoteOf) body.quoteOf = quoteOf;
-		const response = await fetch('http://localhost:8000/posts', {
-			method: 'POST',
-			headers: {
-				"Content-Type": "application/json",
-				"Authorization": authKey,
-			},
-			body: JSON.stringify(body),
-		});
-
-		setPending(false);
-		if (response.ok) {
+		axios.post(
+			'/posts',
+			body, { headers: { "Content-Type": "application/json" } },
+		).then(({ data }) => {
+			setPending(false);
 			setText('');
-			response.json().then(onSuccess);
-		}
+			onSuccess(data);
+		});
 	}
 	if (!authKey) return null;
   return (

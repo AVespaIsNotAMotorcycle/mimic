@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -10,6 +11,8 @@ import Image from './Image';
 import ComposePost from './ComposePost';
 import Tabs from './Tabs';
 import PostDisplay from './Post';
+
+import { getCredentials } from '../utils';
 
 interface Post {
   id: string;
@@ -29,10 +32,9 @@ export default function Timeline() {
 	useEffect(() => {
 		const userName = localStorage.getItem('userName');
 		const endpoint = timelineMode === 'all'
-			? 'http://localhost:8000/posts'
-			: `http://localhost:8000/posts/followed/${userName}`
-		fetch(endpoint)
-			.then((data) => data.json().then(setPosts));
+			? '/posts'
+			: `/posts/followed/${userName}`
+		axios.get(endpoint).then(({ data }) => setPosts(data));
 	}, [timelineMode]);
 
   return (
