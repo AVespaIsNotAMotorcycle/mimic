@@ -208,13 +208,6 @@ export default function Post({
 }) {
 	const [deleted, setDeleted] = useState(false);
 	const [quotedPost, setQuotedPost] = useState();
-	if (deleted) {
-		return (
-	  	<article className="post">
-				This post has been deleted.
-			</article>
-		);
-  }
 
 	useEffect(() => {
 		if (!quoteOf) return;
@@ -225,6 +218,13 @@ export default function Post({
 			.then((post) => { post.json().then(setQuotedPost); });
 	}, [quoteOf]);
 
+	if (deleted) {
+		return (
+	  	<article className="post">
+				This post has been deleted.
+			</article>
+		);
+  }
 	return (
 	  <article className="post">
   		<PostHeading
