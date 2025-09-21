@@ -1,109 +1,105 @@
-'use client';
-
-import { useState } from 'react';
+'use client'
 
 import axios from 'axios';
+import { useState } from 'react';
 
-import InlineMessage from '../components/InlineMessage';
 import Input from '../components/Input';
+import InlineMessage from '../components/InlineMessage';
+
 import { logInAndRedirect } from '../login/page';
 
 const FORM = {
   email1: {
-    type: 'email',
-    label: 'Email address',
-  },
-  email2: {
-    type: 'email',
-    label: 'Confirm email address',
-  },
-  userName: {
-    label: 'userName',
-  },
-  displayName: {
-    label: 'Display name',
-  },
-  password1: {
-    type: 'password',
-    label: 'Password',
-    requirements: [
-      [
-        'Password must be at least 6 characters',
-        (value) => value.length >= 6,
-      ],
-      [
-        'Password must contain a capital letter',
-        (value) => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').find((letter) => value.includes(letter)),
-      ],
-      [
-        'Password must contain a number',
-        (value) => '0123456789'.split('').find((letter) => value.includes(letter)),
-      ],
-    ],
-  },
-  password2: {
-    type: 'password',
-    label: 'Confirm password',
-  },
+		type: 'email',
+		label: 'Email address',
+	},
+	email2: {
+		type: 'email',
+		label: 'Confirm email address',
+	},
+	userName: {
+		label: 'userName',
+	},
+	displayName: {
+		label: 'Display name',
+	},
+	password1: {
+		type: 'password',
+		label: 'Password',
+		requirements: [
+			[
+				'Password must be at least 6 characters',
+				(value) => value.length >= 6,
+			],
+			[
+				'Password must contain a capital letter',
+				(value) => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').find((letter) => value.includes(letter)),
+			],
+			[
+				'Password must contain a number',
+				(value) => '0123456789'.split('').find((letter) => value.includes(letter)),
+			],
+		],
+	},
+	password2: {
+		type: 'password',
+		label: 'Confirm password',
+	},
 };
 
 const FORM_ID = 'signup_form';
 
 export default function SignUp() {
-  const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState('');
+	const [formData, setFormData] = useState({});
+	const [errorMessage, setErrorMessage] = useState('');
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+	async function onSubmit(event: FormEvent<HTMLFormElement>) {
+		event.preventDefault();
 
-    axios.post(`/user/${formData.userName}`, formData)
-      .catch(({ status, statusText }) => {
-        setErrorMessage(`${status}: ${statusText}`);
-      })
-      .then(({ data }) => {
-        logInAndRedirect(formData.userName, data);
-      });
-  }
+		axios.post(`/user/${formData.userName}`, formData)
+			.catch(({ status, statusText }) => {
+				setErrorMessage(`${status}: ${statusText}`);
+			})
+			.then(({ data }) => { logInAndRedirect(formData.userName, data); });
+	}
 
-  const updateForm = (key, value) => {
-    setFormData({ ...formData, [key]: value });
-  };
+	const updateForm = (key, value) => {
+		setFormData({ ...formData, [key]: value });
+	};
 
-  if (formData.password1) {
-    FORM.password2.requirements = [[
-      'Passwords must match',
-      (value) => value === formData.password1,
-    ]];
-  } else {
-    FORM.password2.requirements = undefined;
-  }
-  if (formData.email1) {
-    FORM.email2.requirements = [[
-      'Emails must match',
-      (value) => value === formData.email1,
-    ]];
-  } else {
-    FORM.email2.requirements = undefined;
-  }
+	if (formData.password1) {
+		FORM.password2.requirements = [[
+			'Passwords must match',
+			(value) => value === formData.password1,
+		]];
+	} else {
+		FORM.password2.requirements = undefined;
+	}
+	if (formData.email1) {
+		FORM.email2.requirements = [[
+			'Emails must match',
+			(value) => value === formData.email1,
+		]];
+	} else {
+		FORM.email2.requirements = undefined;
+	}
 
   return (
-    <form id={FORM_ID} onSubmit={onSubmit}>
-      {errorMessage ? <InlineMessage message={errorMessage} type="error" /> : null}
-      {Object.entries(FORM).map(([key, { label, type, requirements }]) => (
-        <Input
-          key={key}
-          required
-          inputID={key}
-          label={label}
-          requirements={requirements}
-          type={type}
-          value={formData[key]}
-          onChange={({ target }) => {
-            updateForm(key, target.value);
-          }}
-        />
-      ))}
-      <button type="submit">Submit</button>
-    </form>
-  );
+		<form onSubmit={onSubmit} id={FORM_ID}>
+			{errorMessage && <InlineMessage type="error" message={errorMessage} />}
+			{Object.entries(FORM).map(([key, { label, type, requirements }]) => (
+				<Input
+					key={key}
+					inputID={key}
+					label={label}
+					type={type}
+					value={formData[key]}
+					onChange={({ target }) => { updateForm(key, target.value); }}
+					requirements={requirements}
+					required
+				/>
+			))}
+			<button type="submit">Submit</button>
+		</form>
+	);
 }
