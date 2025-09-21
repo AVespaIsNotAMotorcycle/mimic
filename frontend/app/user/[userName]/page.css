@@ -34,3 +34,10 @@
 .profile .profile-heading .follow-button-container {
 	margin-left: auto;
 }
+
+form.edit-profile {
+	min-width: 70svw;
+}
+form.edit-profile textarea {
+	min-height: 10rem;
+}

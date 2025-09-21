@@ -88,6 +88,7 @@ export default function InteractButton({ user, reloadUser }) {
 					open={editing}
 					close={closeEditForm}
 					postEdit={postEdit}
+					user={user}
 				/>
 			</>
 		);

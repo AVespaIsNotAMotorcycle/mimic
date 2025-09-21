@@ -40,10 +40,14 @@ export default function EditProfile({
 	open,
 	close = () => {},
 	postEdit = () => {},
+	user = {},
 }) {
 	const credentials = getCredentials();
 
-	const [formData, setFormData] = useState({});
+	const [formData, setFormData] = useState({
+		displayName: user.displayName || '',
+		bio: user.bio || '',
+	});
 	function updateForm(key, target) {
 		const value = FORM[key].type === 'image'
 			?	target.files[0]
@@ -62,7 +66,11 @@ export default function EditProfile({
 	if (!credentials) return <Loading />;
 	return (
 		<Popup open={open}>
-			<form type="multipart/form-data" onSubmit={apply}>
+			<form
+				type="multipart/form-data"
+				className="edit-profile"
+				onSubmit={apply}
+			>
 				{Object.entries(FORM).map(([key, { label, type, requirements }]) => (
 					<Input
 						key={key}
