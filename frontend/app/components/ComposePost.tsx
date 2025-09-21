@@ -38,6 +38,7 @@ export default function ComposePost({
 			setPending(false);
 			setText('');
 			onSuccess(data);
+			window.location.assign(`/post/${data}`);
 		});
 	}
 	if (!authKey) return null;
