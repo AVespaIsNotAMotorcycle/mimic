@@ -83,6 +83,31 @@ main {
 	box-shadow: 0 0 10px black inset;
 }
 
+@keyframes loading-shine {
+	from { background-color: grey; }
+	to { background-color: lightgrey; }
+}
+
+.post-text.placeholder .row,
+.profile-picture.placeholder,
+.names .placeholder {
+  animation-name: loading-shine;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+.post-text.placeholder .row,
+.names .placeholder {
+	height: 1rem;
+	border-radius: var(--border-radius);
+}
+.post-text.placeholder .row:not(:first-child) {
+	margin-top: 1rem;
+}
+.post-text.placeholder .row:last-child { width: 50%; }
+.names .user-name.placeholder { margin-top: 1rem; width: 10rem; }
+.names .display-name.placeholder { width: 20rem; }
+
 article.post + article.post {
 	border-top: 1px solid var(--munsell);
 }
@@ -93,6 +118,7 @@ article.post .quote {
 	outline: 1px solid grey;
 	border-radius: calc(var(--border-radius) * 2);
 }
+.profile-picture.placeholder,
 img.profile-picture {
   width: 4rem;
 	aspect-ratio: 1 / 1;

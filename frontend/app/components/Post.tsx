@@ -72,7 +72,19 @@ function PostHeading({
 	postID,
 	setDeleted,
 	isQuote,
+	placeholder,
 }) {
+	if (placeholder) {
+		return (
+			<div className="post-heading placeholder">
+				<div className="profile-picture placeholder" />
+				<div className="names">
+					<div className="display-name placeholder" />
+					<div className="user-name placeholder" />
+				</div>
+			</div>
+		);
+	}
 	return (
 		<div className="post-heading">
 	  	<Image
@@ -128,6 +140,7 @@ function PostFooting({
 	replies,
 	quotes: initialQuotes,
 	isQuote,
+	placeholder,
 }) {
 	const [quoting, setQuoting] = useState(false);
 
@@ -156,6 +169,7 @@ function PostFooting({
 	}
 
 	if (isQuote) return null;
+	if (placeholder) return <div className="footing placeholder" />;
 	return (
 		<>
 			<div className="footing">
@@ -200,6 +214,7 @@ export default function Post({
 	quoteOf,
 	isQuote,
 	quotes,
+	placeholder,
 }) {
 	const [deleted, setDeleted] = useState(false);
 	const [quotedPost, setQuotedPost] = useState();
@@ -220,6 +235,19 @@ export default function Post({
 			</article>
 		);
   }
+	if (placeholder) {
+		return (
+			<article className="post placeholder">
+				<PostHeading placeholder />
+				<div className="post-text placeholder">
+					<div className="row placeholder" />
+					<div className="row placeholder" />
+					<div className="row placeholder" />
+				</div>
+				<PostFooting placeholder />
+			</article>
+		);
+	}
 	return (
 	  <article className="post">
   		<PostHeading
@@ -233,10 +261,11 @@ export default function Post({
 			{noLink
 				? <p className="post-text">{text}</p>
 				: <a className="post-text" href={`/post/${postID}`}>{text}</a>}
-			{!isQuote && quoteOf && !quotedPost && <Loading />}
-			{quotedPost && (
+				{!isQuote && quoteOf && (
 				<div className="quote">
-					<Post {...quotedPost} isQuote />
+					{quotedPost
+						? <Post {...quotedPost} isQuote />
+						: <Post placeholder />}
 				</div>
 			)}
 			<PostFooting
