@@ -5,6 +5,8 @@ import { useState } from 'react';
 
 import Input from './Input';
 
+import './ComposePost.css';
+
 function getAuthKey() {
 	if (typeof localStorage === 'undefined') return undefined;
 	const authKey = localStorage.getItem('authKey');
@@ -40,7 +42,7 @@ export default function ComposePost({
 	}
 	if (!authKey) return null;
   return (
-		<form className="composepost" onSubmit={onSubmit} disabled={pending}>
+		<form className="compose-post" onSubmit={onSubmit} disabled={pending}>
 			<Input
 				label={prompt}
 				id="compose-post-field"
