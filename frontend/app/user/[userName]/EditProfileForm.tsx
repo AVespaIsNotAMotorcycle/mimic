@@ -18,9 +18,6 @@ const FORM = {
 		label: 'Background picture',
 		type: 'image',
 	},
-	userName: {
-		label: 'userName',
-	},
 	displayName: {
 		label: 'Display name',
 	},
