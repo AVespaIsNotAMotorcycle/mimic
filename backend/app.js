@@ -4,6 +4,7 @@ import cors from 'cors';
 import mongoConnection from './mongo.js';
 import posts from './posts.js';
 import users from './users.js';
+import images from './images.js';
 
 const app = express()
 const port = 8000
@@ -14,6 +15,7 @@ app.use(express.json())
 
 posts(app);
 users(app);
+images(app);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
