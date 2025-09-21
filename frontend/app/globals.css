@@ -1,10 +1,12 @@
 html {
+	--davys-gray: #5a5766;
   --charcoal: #2f4858;
 	--munsell: #1b9aaa;
 	--quartz: #9d8ca1;
 	--powder: #f0f4ef;
 	--white: #ffffff;
 
+	--color-background-secondary: var(--charcoal);
   --color-background: var(--charcoal);
   --color-text: var(--white);
 	--color-border: var(--quartz);
@@ -33,20 +35,33 @@ body {
 }
 
 header,
-main,
 footer {
 	padding: 1rem;
+	width: 100%;
 }
 
 header {
 	height: fit-content;
 	top: 0;
   position: sticky;
+	height: 100svh;
+}
+
+header, footer {
+	background: var(--color-background-secondary);
 }
 
 .logo {
+	margin-left: auto;
+	display: block;
+	width: fit-content;
   font-weight: 800;
 	font-size: 2rem;
+}
+
+nav ul a,
+.logo {
+	padding: 0.5rem 1rem;
 }
 
 nav ul {
@@ -56,21 +71,23 @@ nav ul {
 
 nav ul a {
   display: flex;
+	flex-direction: row-reverse;
 	gap: 1rem;
 	text-decoration: none;
-	padding: 0.5rem 1rem;
 }
 
 main {
-	flex-grow: 1;
-  max-width: 50rem;
+	--max-width: 70svw;
+	min-width: min(50rem, var(--max-width));
+  max-width: var(--max-width);
+	box-shadow: 0 0 10px black inset;
 }
 
 article.post + article.post {
 	border-top: 1px solid var(--munsell);
 }
 article.post {
-	padding: 1rem;
+	padding: 1rem 2rem;
 }
 article.post .quote {
 	outline: 1px solid grey;
