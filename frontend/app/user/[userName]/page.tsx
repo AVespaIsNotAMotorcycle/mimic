@@ -8,10 +8,10 @@ import Loading from '../../components/Loading';
 import Post from '../../components/Post';
 import Image from '../../components/Image';
 
-import FollowButton from './FollowButton';
+import InteractButton from './InteractButton';
 import './page.css';
 
-function Heading({ user }) {
+function Heading({ user, reloadUser = () => {} }) {
 	const {
 		displayName,
 		userName,
@@ -40,7 +40,7 @@ function Heading({ user }) {
 					<div>{`${followers.length} followers`}</div>
 				</div>
 				<div className="follow-button-container">
-					<FollowButton user={user} />
+					<InteractButton user={user} reloadUser={reloadUser} />
 				</div>
 			</div>
 			<div className="profile-bio">
@@ -54,14 +54,16 @@ export default function Profile() {
 	const { userName } = useParams();
 	const [user, setUser] = useState();
 
-	useEffect(() => {
+	function loadUser() {
 		axios.get(`/user/${userName}`).then(({ data }) => { setUser(data); });
-	}, []);
+	}
+	function reloadUser() { setUser(null); loadUser(); }
+	useEffect(() => { loadUser(); }, []);
 
 	if (!user) return <Loading />;
 	return (
 		<>
-			<Heading user={user} />
+			<Heading user={user} reloadUser={reloadUser} />
 		  {user.posts.map((post) => <Post key={post._id} {...post} />)}
 		</>
 	);

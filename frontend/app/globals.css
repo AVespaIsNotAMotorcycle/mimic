@@ -173,6 +173,10 @@ button {
   outline: 0px solid var(--munsell);
 	transition-properties: color background-color outline-width;
 	transition-duration: 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	gap: 1rem;
 }
 button:not(:disabled):hover,
 button:not(:disabled):focus {
