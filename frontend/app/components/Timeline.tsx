@@ -54,7 +54,7 @@ export default function Timeline() {
 	const [timelineMode, setTimelineMode] = useState('all');
 	const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
+	function loadPosts () {
 		setLoading(true);
 		const userName = localStorage.getItem('userName');
 		const endpoint = timelineMode === 'all'
@@ -66,7 +66,8 @@ export default function Timeline() {
 				setLoading(false);
 			})
 			.catch(() => { setLoading(false); });
-	}, [timelineMode]);
+	}
+	useEffect(loadPosts, [timelineMode]);
 
   return (
 	  <>
@@ -75,7 +76,7 @@ export default function Timeline() {
 				selected={timelineMode}
 				onChange={setTimelineMode}
 			/>
-			<ComposePost />
+			<ComposePost onSuccess={loadPosts} />
 			{loading && <LoadingPlaceholders />}
 		  {!loading && posts.map((post) => <PostDisplay key={post._id} {...post} />)}
 			{!loading && !posts.length && <FailedLoadMessage />}
