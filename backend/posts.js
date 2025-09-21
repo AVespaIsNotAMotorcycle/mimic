@@ -71,48 +71,50 @@ async function alterLike(req, res, action) {
 async function likePost(req, res) { alterLike(req, res, 'like'); }
 async function unlikePost(req, res) { alterLike(req, res, 'unlike'); }
 
+async function createPost(req, res) {
+	const authKey = req.headers.authorization;
+	const {
+		userName,
+		displayName,
+	} = await authenticateKey(authKey);
+
+	if (!userName) {
+		res.status(401);
+		res.send('Invalid auth key.');
+		return;
+	}
+
+	const { text, replyTo, quoteOf } = req.body;
+	const { insertedId } = await mongoCollection('posts').insertOne({
+		userName,
+		displayName,
+		text,
+		replyTo,
+		quoteOf,
+	});
+	if (replyTo) {
+		await mongoCollection('posts')
+			.updateOne(
+				{ '_id': new ObjectId(replyTo) },
+				{ '$addToSet': { replies: insertedId } },
+			);
+	}
+	if (quoteOf) {
+		await mongoCollection('posts')
+			.updateOne(
+				{ '_id': new ObjectId(quoteOf) },
+				{ '$addToSet': { quotes: insertedId } },
+			);
+	}
+
+	res.status(200).send(insertedId);
+}
+
 export default function createEndpoints(app) {
+  app.post('/posts', createPost);
   app.get('/posts', async (req, res) => {
 		const posts = await getAllPosts();
 		res.send(posts);
-	});
-  app.post('/posts', async (req, res) => {
-		const authKey = req.headers.authorization;
-		const {
-			userName,
-			displayName,
-		} = await authenticateKey(authKey);
-
-		if (!userName) {
-			res.status(401);
-			res.send('Invalid auth key.');
-			return;
-		}
-
-		const { text, replyTo, quoteOf } = req.body;
-		const { insertedId } = await mongoCollection('posts').insertOne({
-			userName,
-			displayName,
-			text,
-			replyTo,
-			quoteOf,
-		});
-		if (replyTo) {
-			await mongoCollection('posts')
-				.updateOne(
-					{ '_id': new ObjectId(replyTo) },
-					{ '$addToSet': { replies: insertedId } },
-				);
-		}
-		if (quoteOf) {
-			await mongoCollection('posts')
-				.updateOne(
-					{ '_id': new ObjectId(quoteOf) },
-					{ '$addToSet': { quotes: insertedId } },
-				);
-		}
-
-		res.status(200).send(insertedId);
 	});
 
 	app.get('/posts/followed/:userName', getPostsFromFollowed);
