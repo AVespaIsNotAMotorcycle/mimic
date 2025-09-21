@@ -21,6 +21,30 @@ interface Post {
 	text: string;
 };
 
+function FailedLoadMessage() {
+	return (
+		<div className="failed-load">
+			No posts could be loaded.
+		</div>
+	);
+}
+function LoadingPlaceholders() {
+	return (
+		<div className="timeline-placeholder">
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+			<PostDisplay placeholder />
+		</div>
+	);
+}
+
 const TIMELINE_MODES = [
   { id: 'all', label: 'All posts' },
   { id: 'following', label: 'Following' },
@@ -28,13 +52,20 @@ const TIMELINE_MODES = [
 export default function Timeline() {
 	const [posts, setPosts] = useState([]);
 	const [timelineMode, setTimelineMode] = useState('all');
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		setLoading(true);
 		const userName = localStorage.getItem('userName');
 		const endpoint = timelineMode === 'all'
 			? '/posts'
 			: `/posts/followed/${userName}`
-		axios.get(endpoint).then(({ data }) => setPosts(data));
+		axios.get(endpoint)
+			.then(({ data }) => {
+				setPosts(data);
+				setLoading(false);
+			})
+			.catch(() => { setLoading(false); });
 	}, [timelineMode]);
 
   return (
@@ -45,7 +76,9 @@ export default function Timeline() {
 				onChange={setTimelineMode}
 			/>
 			<ComposePost />
-		  {posts.map((post) => <PostDisplay key={post._id} {...post} />)}
+			{loading && <LoadingPlaceholders />}
+		  {!loading && posts.map((post) => <PostDisplay key={post._id} {...post} />)}
+			{!loading && !posts.length && <FailedLoadMessage />}
 		</>
 	);
 }

@@ -38,6 +38,7 @@ header,
 footer {
 	padding: 1rem;
 	width: 100%;
+	box-sizing: border-box;
 }
 
 header {
@@ -81,6 +82,21 @@ main {
 	min-width: min(50rem, var(--max-width));
   max-width: var(--max-width);
 	box-shadow: 0 0 10px black inset;
+}
+
+main:has(.timeline-placeholder) {
+	overflow: clip;
+	max-height: 100svh;
+}
+main .timeline-placeholder {
+	background: pink;
+	height: 0;
+	position: relative;
+	bottom: 0;
+}
+main .failed-load {
+	margin: 2rem auto;
+	width: fit-content;
 }
 
 @keyframes loading-shine {
