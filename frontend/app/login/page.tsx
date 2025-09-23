@@ -26,7 +26,7 @@ export default function Login() {
 	};
 
   return (
-		<Box>
+		<Box className="login">
   		<form onSubmit={onSubmit}>
   			<Input
   				id="userName"
@@ -45,7 +45,7 @@ export default function Login() {
   			/>
   			<button type="submit">Login</button>
   		</form>
-			<a href="/sign_up">No account? Sign up here</a>
+			<a className="center" href="/sign_up">No account? Sign up here</a>
 		</Box>
 	);
 }

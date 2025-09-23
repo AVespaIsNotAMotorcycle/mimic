@@ -1,6 +1,6 @@
-export default function Box({ children }) {
+export default function Box({ className, children }) {
 	return (
-		<div className="box">
+		<div className={`${className} box`}>
 			{children}
 		</div>
 	);

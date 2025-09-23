@@ -281,7 +281,7 @@ button[type=submit] {
 	margin: 2rem auto;
 	padding: 2rem;
 	border-radius: calc(var(--border-radius) * 2);
-	box-shadow: 0px 0px 8px grey;
+	box-shadow: 0 0 10px black;
 }
 
 .center {
@@ -291,4 +291,9 @@ button[type=submit] {
 }
 .vertical-center {
   margin-top: 50%;
+}
+
+.box.signup,
+.box.login {
+  margin-inline: 2rem;
 }

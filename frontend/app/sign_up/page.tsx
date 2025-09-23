@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
+import Box from '../components/Box';
 import Input from '../components/Input';
 import InlineMessage from '../components/InlineMessage';
 
@@ -85,21 +86,23 @@ export default function SignUp() {
 	}
 
   return (
-		<form onSubmit={onSubmit} id={FORM_ID}>
-			{errorMessage && <InlineMessage type="error" message={errorMessage} />}
-			{Object.entries(FORM).map(([key, { label, type, requirements }]) => (
-				<Input
-					key={key}
-					inputID={key}
-					label={label}
-					type={type}
-					value={formData[key]}
-					onChange={({ target }) => { updateForm(key, target.value); }}
-					requirements={requirements}
-					required
-				/>
-			))}
-			<button type="submit">Submit</button>
-		</form>
+    <Box className="signup">
+  		<form onSubmit={onSubmit} id={FORM_ID}>
+  			{errorMessage && <InlineMessage type="error" message={errorMessage} />}
+  			{Object.entries(FORM).map(([key, { label, type, requirements }]) => (
+  				<Input
+  					key={key}
+  					inputID={key}
+  					label={label}
+  					type={type}
+  					value={formData[key]}
+  					onChange={({ target }) => { updateForm(key, target.value); }}
+  					requirements={requirements}
+  					required
+  				/>
+  			))}
+  			<button type="submit">Submit</button>
+  		</form>
+    </Box>
 	);
 }
