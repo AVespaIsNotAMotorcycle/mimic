@@ -60,7 +60,7 @@ export default function Profile() {
 	function reloadUser() { setUser(null); loadUser(); }
 	useEffect(() => { loadUser(); }, []);
 
-	if (!user) return <Loading />;
+	if (!user) return <div className="vertical-center center"><Loading /></div>;
 	return (
 		<>
 			<Heading user={user} reloadUser={reloadUser} />

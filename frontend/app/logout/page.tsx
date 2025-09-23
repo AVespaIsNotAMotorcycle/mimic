@@ -10,6 +10,6 @@ export default function LogOut() {
 	}, [])
 
   return (
-		<h1>Logging out...</h1>
+		<h1 className="center">Logging out...</h1>
 	);
 }
