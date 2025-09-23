@@ -2,20 +2,21 @@
 	display: flex;
   gap: 1rem;
 }
-.tabs-button {
+button.tabs-button {
 	flex-basis: 100%;
 	border-radius: 0;
 }
-.tabs-button:focus,
-.tabs-button:hover,
-.tabs-button {
+button.tabs-button:focus,
+button.tabs-button:hover,
+button.tabs-button {
 	outline: none;
 	border: none;
 	background: transparent;
   border-bottom: 5px solid transparent;
 }
-.tabs-button:focus,
-.tabs-button:hover,
-.tabs-button.selected {
+button.tabs-button:focus,
+button.tabs-button:hover,
+button.tabs-button.selected {
+	background: transparent;
   border-bottom: 5px solid var(--munsell);
 }
