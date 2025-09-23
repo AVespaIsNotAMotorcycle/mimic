@@ -16,6 +16,13 @@ function fileListToArray(fileList) {
   return array;
 }
 
+const IMAGES_REQUIREMENTS = [
+  [
+    'Cannot upload more than four images.',
+    (value) => value.length <= 4,
+  ]
+];
+
 export default function ComposePost({
   prompt = 'Compose post:',
 	replyTo,
@@ -63,6 +70,8 @@ export default function ComposePost({
         type="image"
 				onChange={({ target }) => { setImages(target.files); }}
         multiple
+        requirements={IMAGES_REQUIREMENTS}
+        value={images}
       />
 			<button type="submit">Post</button>
 		</form>
