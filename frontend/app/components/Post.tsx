@@ -202,6 +202,43 @@ function PostFooting({
 	);
 }
 
+function numeralToText(numeral) {
+  switch (numeral) {
+    case 1: return 'one';
+    case 2: return 'two';
+    case 3: return 'three';
+    case 4: return 'four';
+    default: return 'zero';
+  }
+}
+function PostImages({ images = [] }) {
+  const [viewedImage, setViewedImage] = useState(null);
+  const viewing = typeof viewedImage === 'number'
+    && viewedImage >= 0
+    && viewedImage < images.length;
+  if (!images.length) return null;
+  return (
+    <div className={`post-images ${numeralToText(images.length)}-count`}>
+      {images.map((source, index) => (
+        <button
+          key={source}
+          type="button"
+          className="image-wrapper"
+          onClick={() => { setViewedImage(index); }}
+        >
+          <Image source={source} />
+        </button>
+      ))}
+      <Popup open={viewing}>
+        <Image source={viewing ? images[viewedImage] : images[0]} />
+        <button type="button" onClick={() => { setViewedImage(null)}}>
+          Close
+        </button>
+      </Popup>
+    </div>
+  );
+}
+
 export default function Post({
 	_id : postID,
 	userName,
@@ -215,6 +252,7 @@ export default function Post({
 	isQuote,
 	quotes,
 	placeholder,
+  images = [],
 }) {
 	const [deleted, setDeleted] = useState(false);
 	const [quotedPost, setQuotedPost] = useState();
@@ -261,6 +299,7 @@ export default function Post({
 			{noLink
 				? <p className="post-text">{text}</p>
 				: <a className="post-text" href={`/post/${postID}`}>{text}</a>}
+        <PostImages images={images} />
 				{!isQuote && quoteOf && (
 				<div className="quote">
 					{quotedPost

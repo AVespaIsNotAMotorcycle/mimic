@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-import { getCredentials } from '../../utils';
+import { createMultipartData, getCredentials } from '../../utils';
 
 import Popup from '../../components/Popup';
 import Input from '../../components/Input';
@@ -26,15 +26,6 @@ const FORM = {
 		type: 'textarea',
 	},
 };
-
-function createMultipartData(formData) {
-	const multipartData = new FormData();
-	Object.entries(formData)
-		.forEach(([key, value]) => {
-			multipartData.append(key, value);
-		});
-	return multipartData;
-}
 
 export default function EditProfile({
 	open,
@@ -77,7 +68,7 @@ export default function EditProfile({
 						inputID={key}
 						label={label}
 						type={type}
-						value={formData[key]}avinam3
+						value={formData[key]}
 						onChange={({ target }) => { updateForm(key, target); }}
 						requirements={requirements}
 					/>

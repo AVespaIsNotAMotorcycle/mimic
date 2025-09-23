@@ -10,8 +10,10 @@
 	position: relative;
 	margin-inline: auto;
 	width: fit-content;
-	margin-top: 20svh;
 	border-radius: calc(var(--border-radius) * 2);
+  max-height: calc(100svh - 2rem);
+  margin-top: 1rem;
+  box-sizing: border-box;
 }
 
 .popup-window .button-group {

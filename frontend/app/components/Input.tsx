@@ -9,6 +9,7 @@ function Field({
 	value,
 	onChange,
 	required,
+  multiple,
 }) {
   switch (type) {
 		case 'image':
@@ -19,6 +20,7 @@ function Field({
 					id={inputID}
 					onChange={onChange}
 					required={required}
+          multiple={multiple}
 				/>
 			);
 		case 'textarea':
@@ -84,6 +86,7 @@ export default function Input(props: InputProps) {
 		onChange,
 		requirements,
 		required,
+    multiple,
 	} = props;
 	return (
 		<label htmlFor={inputID}>
@@ -94,6 +97,7 @@ export default function Input(props: InputProps) {
 				value={value}
 				onChange={onChange}
 				required={required}
+        multiple={multiple}
 			/>
 			<Requirements value={value} requirements={requirements} />
 		</label>

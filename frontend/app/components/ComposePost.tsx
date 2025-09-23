@@ -4,13 +4,16 @@ import axios from 'axios';
 import { useState } from 'react';
 
 import Input from './Input';
+import { createMultipartData, getCredentials } from '../utils';
 
 import './ComposePost.css';
 
-function getAuthKey() {
-	if (typeof localStorage === 'undefined') return undefined;
-	const authKey = localStorage.getItem('authKey');
-	return authKey;
+function fileListToArray(fileList) {
+  const array = [];
+  for (let index = 0; index < fileList.length; index += 1) {
+    array.push(fileList.item(index));
+  }
+  return array;
 }
 
 export default function ComposePost({
@@ -19,10 +22,12 @@ export default function ComposePost({
 	quoteOf,
 	onSuccess = () => {},
 }) {
-	const authKey = getAuthKey();
+	const credentials = getCredentials();
+  const authKey = credentials && credentials.authKey;
 
 	const [pending, setPending] = useState(false);
 	const [text, setText] = useState('');
+  const [images, setImages] = useState([]);
 
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -31,14 +36,16 @@ export default function ComposePost({
 		const body = { text };
 		if (replyTo) body.replyTo = replyTo;
 		if (quoteOf) body.quoteOf = quoteOf;
-		axios.post(
-			'/posts',
-			body, { headers: { "Content-Type": "application/json" } },
-		).then(({ data }) => {
-			setPending(false);
-			setText('');
-			onSuccess(data);
-		});
+    if (images.length) body.images = fileListToArray(images);
+
+    const multipartData = createMultipartData(body);
+		axios.post('/posts', multipartData)
+      .then(({ data }) => {
+  			setPending(false);
+  			setText('');
+        setImages([]);
+  			onSuccess(data);
+  		});
 	}
 	if (!authKey) return null;
   return (
@@ -50,6 +57,13 @@ export default function ComposePost({
 				value={text}
 				onChange={({ target }) => { setText(target.value); }}
 			/>
+      <Input
+        label="Attach images"
+        id="attach-image-field"
+        type="image"
+				onChange={({ target }) => { setImages(target.files); }}
+        multiple
+      />
 			<button type="submit">Post</button>
 		</form>
 	);

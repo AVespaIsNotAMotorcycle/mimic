@@ -169,6 +169,49 @@ article.post .footing button {
 
 article.post button.delete-post { margin-left: auto;}
 
+article.post .post-images {
+  display: grid;
+  gap: 1rem;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+}
+article.post .post-images.two-count {
+  grid-template-columns: 1fr 1fr;
+}
+article.post .post-images.three-count {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+article.post .post-images.three-count img:first-child {
+  grid-row-end: span 2;
+}
+article.post .post-images.four-count {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+article.post .post-images button.image-wrapper {
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: var(--border-radius);
+  border: none;
+  outline: none;
+  padding: 0;
+}
+article.post .post-images button.image-wrapper:focus,
+article.post .post-images button.image-wrapper:hover {
+  filter: brightness(120%);
+}
+article.post .post-images img {
+  object-fit: cover;
+  min-height: 100%;
+  min-width: 100%;
+}
+article.post .post-images .popup-container img {
+  max-width: calc(100svw - 10rem);
+  max-height: calc(100svh - 10rem);
+}
+
 article.post .footing,
 article.post .footing button {
   display: flex;

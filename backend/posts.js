@@ -1,6 +1,9 @@
+import multer from 'multer';
 import { ObjectId } from 'mongodb';
 import { mongoCollection } from './mongo.js';
 import { authenticateKey } from './users.js';
+
+const imageUpload = multer({ dest: './public/images' });
 
 async function getReplyTo(post) {
 	const { replyTo } = post
@@ -72,6 +75,8 @@ async function likePost(req, res) { alterLike(req, res, 'like'); }
 async function unlikePost(req, res) { alterLike(req, res, 'unlike'); }
 
 async function createPost(req, res) {
+  console.log(req.file, req.files, req.body, req.body.images);
+
 	const authKey = req.headers.authorization;
 	const {
 		userName,
@@ -85,12 +90,16 @@ async function createPost(req, res) {
 	}
 
 	const { text, replyTo, quoteOf } = req.body;
+  const images = req.files && req.files.images && Array.isArray(req.files.images)
+    ? req.files.images.map((file) => file.filename)
+    : [];
 	const { insertedId } = await mongoCollection('posts').insertOne({
 		userName,
 		displayName,
 		text,
 		replyTo,
 		quoteOf,
+    images,
 	});
 	if (replyTo) {
 		await mongoCollection('posts')
@@ -111,7 +120,11 @@ async function createPost(req, res) {
 }
 
 export default function createEndpoints(app) {
-  app.post('/posts', createPost);
+  app.post(
+    '/posts',
+		imageUpload.fields([{ name: 'images' }]),
+    createPost,
+  );
   app.get('/posts', async (req, res) => {
 		const posts = await getAllPosts();
 		res.send(posts);

@@ -14,7 +14,7 @@
 - [ ] Posts
   - [ ] Users can post
     - [x] Users can post text
-    - [ ] Users can post images
+    - [x] Users can post images
     - [ ] Users can post video
     - [ ] Users can post polls
   - [ ] Users can view posts from other accounts
