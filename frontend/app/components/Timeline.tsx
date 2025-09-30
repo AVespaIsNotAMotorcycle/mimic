@@ -3,23 +3,9 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import RepeatIcon from '@mui/icons-material/Repeat';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-
-import Image from './Image';
 import ComposePost from './ComposePost';
 import Tabs from './Tabs';
 import PostDisplay from './Post';
-
-import { getCredentials } from '../utils';
-
-interface Post {
-  id: string;
-	userName: string;
-	displayName: string;
-	text: string;
-};
 
 function FailedLoadMessage() {
 	return (
