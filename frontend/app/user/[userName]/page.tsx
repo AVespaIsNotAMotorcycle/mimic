@@ -26,12 +26,14 @@ function Heading({ user, reloadUser = () => {} }) {
 			<Image
 				source={backgroundPicture}
 				className="background-picture"
+				alt=""
 			/>
 			<div className="profile-heading">
 				<div className="profile-picture-container">
 					<Image
 						source={profilePicture}
 						className="profile-picture"
+						alt=""
 					/>
 				</div>
 				<div className="names">
@@ -65,7 +67,7 @@ export default function Profile() {
 		setUser(null);
 		loadUser(userName, setUser);
 	}
-	useEffect(() => { loadUser(userName, setUser); }, []);
+	useEffect(() => { loadUser(userName, setUser); }, [userName]);
 
 	if (!user) return <div className="vertical-center center"><Loading /></div>;
 	return (
