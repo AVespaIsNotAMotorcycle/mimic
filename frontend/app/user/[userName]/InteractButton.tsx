@@ -58,7 +58,6 @@ export default function InteractButton({ user, reloadUser }) {
 	const [editing, setEditing] = useState();
 
 	const { userName } = user;
-	const authKey = localStorage.getItem('authKey');
 
 	function request(action) {
 		setPending(true);
