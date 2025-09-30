@@ -2,7 +2,6 @@
 
 import axios from 'axios';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 
 import Input from '../components/Input';
 import Box from '../components/Box';
