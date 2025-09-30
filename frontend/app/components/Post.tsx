@@ -15,6 +15,8 @@ import ComposePost from './ComposePost';
 import Popup from './Popup';
 import Loading from './Loading';
 
+const DEFAULT_ALT_TEXT = 'The user has not supplied alt text for this image.';
+
 function DeletePostButton({
 	postAuthor,
 	postID,
@@ -90,6 +92,7 @@ function PostHeading({
 				source={userName}
 				pathType="userName"
 				className="profile-picture"
+				alt={DEFAULT_ALT_TEXT}
 			/>
 			<div className="names">
 			  <span>{displayName}</span>
@@ -227,11 +230,14 @@ function PostImages({ images = [] }) {
           className="image-wrapper"
           onClick={() => { setViewedImage(index); }}
         >
-          <Image source={source} />
+          <Image source={source} alt={DEFAULT_ALT_TEXT} />
         </button>
       ))}
       <Popup open={viewing}>
-        <Image source={viewing ? images[viewedImage] : images[0]} />
+        <Image
+					source={viewing ? images[viewedImage] : images[0]}
+					alt={DEFAULT_ALT_TEXT}
+				/>
         <button type="button" onClick={() => { setViewedImage(null)}}>
           Close
         </button>
