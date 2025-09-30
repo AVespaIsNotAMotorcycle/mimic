@@ -1,5 +1,3 @@
-import NextJSImage from 'next/image';
-
 interface Props {
 	source: string,
 	pathType: 'userName' | 'relativeToImages',
@@ -26,7 +24,7 @@ export default function Image(props: Props) {
 		alt,
 	} = props;
 	return (
-		<NextJSImage
+		<img
 			src={getURL(pathType, source)}
 			className={className}
 			alt={alt}
