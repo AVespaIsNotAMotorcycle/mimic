@@ -271,7 +271,7 @@ export default function Post({
 
 		axios.get(`/posts/${quoteOf}`)
 			.then(({ data }) => { setQuotedPost(data); });
-	}, [quoteOf]);
+	}, [quoteOf, quotedPost, isQuote]);
 
 	if (deleted) {
 		return (
