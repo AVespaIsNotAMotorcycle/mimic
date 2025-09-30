@@ -129,6 +129,8 @@ function QuoteForm({ open, quoteOf, closeFunction }) {
 			<ComposePost
 				quoteOf={quoteOf}
 				onSuccess={closeFunction}
+				canCancel
+				onCancel={closeFunction}
 			/>
 		</Popup>
 	);

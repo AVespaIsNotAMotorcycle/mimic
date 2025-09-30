@@ -28,6 +28,8 @@ export default function ComposePost({
 	replyTo,
 	quoteOf,
 	onSuccess = () => {},
+	canCancel = false,
+	onCancel = () => {},
 }) {
 	const credentials = getCredentials();
   const authKey = credentials && credentials.authKey;
@@ -73,7 +75,13 @@ export default function ComposePost({
         requirements={IMAGES_REQUIREMENTS}
         value={images}
       />
-			<button type="submit">Post</button>
+			<div className="button-group">
+				{canCancel && (
+					<button type="button" onClick={onCancel}>
+						Cancel
+					</button>)}
+				<button type="submit">Post</button>
+			</div>
 		</form>
 	);
 }
