@@ -49,16 +49,23 @@ function Heading({ user, reloadUser = () => {} }) {
 		</div>
 	);
 }
+function loadUser(
+	userName: string,
+	setUser: (data: object) => void,
+) {
+	axios.get(`/user/${userName}`)
+		.then(({ data }) => { setUser(data); });
+}
 
 export default function Profile() {
 	const { userName } = useParams();
 	const [user, setUser] = useState();
 
-	function loadUser() {
-		axios.get(`/user/${userName}`).then(({ data }) => { setUser(data); });
+	function reloadUser() {
+		setUser(null);
+		loadUser(userName, setUser);
 	}
-	function reloadUser() { setUser(null); loadUser(); }
-	useEffect(() => { loadUser(); }, []);
+	useEffect(() => { loadUser(userName, setUser); }, []);
 
 	if (!user) return <div className="vertical-center center"><Loading /></div>;
 	return (
