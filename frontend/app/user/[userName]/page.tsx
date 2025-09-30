@@ -20,7 +20,6 @@ function Heading({ user, reloadUser = () => {} }) {
 		bio,
 		followers = [],
 	} = user;
-	const imagesURL = 'http://localhost:8000/images/';
 	return (
 		<div className="profile">
 			<Image
