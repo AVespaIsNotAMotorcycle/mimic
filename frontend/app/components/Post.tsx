@@ -12,7 +12,6 @@ import { getCredentials } from '../utils';
 
 import Image from './Image';
 import ComposePost from './ComposePost';
-import Tabs from './Tabs';
 import Popup from './Popup';
 import Loading from './Loading';
 
@@ -24,7 +23,7 @@ function DeletePostButton({
 }) {
 	const [confirming, setConfirming] = useState(false);
 	const [pendingRequest, setPendingRequest] = useState(false);
-	const { userName, authKey } = getCredentials();
+	const { userName } = getCredentials();
 
 	if (!postID) return null;
 	if (!userName) return null;
