@@ -14,7 +14,7 @@ export default function PostPage() {
 
 	useEffect(() => {
   	axios.get(`/posts/${postID}`).then(({ data }) => { setPost(data); });
-	}, []);
+	}, [postID]);
 
 	if (!post) return <Loading />;
 	return (
