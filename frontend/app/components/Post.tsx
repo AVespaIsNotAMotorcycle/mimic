@@ -14,6 +14,7 @@ import Image from './Image';
 import ComposePost from './ComposePost';
 import Popup from './Popup';
 import Loading from './Loading';
+import { timeStamp } from 'console';
 
 const DEFAULT_ALT_TEXT = 'The user has not supplied alt text for this image.';
 
@@ -246,6 +247,30 @@ function PostImages({ images = [] }) {
   );
 }
 
+function TimeCreated(props: { timestamp: number }) {
+	const { timestamp } = props;
+	if (!timestamp) return `Posted at an unknown time.`;
+
+	const now = Date.now();
+	const difference = now - timestamp;
+
+	const seconds = difference / 1000;
+	const minutes = seconds / 60;
+	const hours = minutes / 60;
+	const days = hours / 24;
+
+	const secondsString = `${seconds.toFixed(0)} minutes`;
+	const minutesString = `${minutes.toFixed(0)} minutes`;
+	const hoursString = `${hours.toFixed(0)} minutes`;
+	const daysString = `${days.toFixed(0)} minutes`;
+
+	if (days > 1) return `Posted ${daysString} ago.`;
+	if (hours > 1) return `Posted ${hoursString} ago.`;
+	if (minutes > 1) return `Posted ${minutesString} ago.`;
+	if (seconds > 1) return `Posted ${secondsString} ago.`;
+	return `Posted at an unknown time.`;
+}
+
 export default function Post({
 	_id : postID,
 	userName,
@@ -260,6 +285,7 @@ export default function Post({
 	quotes,
 	placeholder,
   images = [],
+	timestamp,
 }) {
 	const [deleted, setDeleted] = useState(false);
 	const [quotedPost, setQuotedPost] = useState();
@@ -314,6 +340,9 @@ export default function Post({
 						: <Post placeholder />}
 				</div>
 			)}
+			<div className="time-created">
+				<TimeCreated timestamp={timestamp} />
+			</div>
 			<PostFooting
 				postID={postID}
 				likes={likes}

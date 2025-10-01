@@ -212,6 +212,11 @@ article.post .post-images .popup-container img {
   max-height: calc(100svh - 10rem);
 }
 
+article.post .time-created {
+	font-size: 0.9rem;
+	font-style: italic;
+}
+
 article.post .footing,
 article.post .footing button {
   display: flex;
