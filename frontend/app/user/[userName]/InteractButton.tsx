@@ -39,7 +39,7 @@ function Follow({ onClick }) {
 	return (
 		<button type="button" onClick={onClick}>
 			<PersonAddIcon />
-			Unfollow
+			Follow
 		</button>
 	);
 }
