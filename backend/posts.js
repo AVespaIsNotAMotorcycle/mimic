@@ -89,6 +89,7 @@ async function createPost(req, res) {
 		return;
 	}
 
+	const timestamp = Date.now();
 	const { text, replyTo, quoteOf } = req.body;
   const images = req.files && req.files.images && Array.isArray(req.files.images)
     ? req.files.images.map((file) => file.filename)
@@ -100,6 +101,7 @@ async function createPost(req, res) {
 		replyTo,
 		quoteOf,
     images,
+		timestamp,
 	});
 	if (replyTo) {
 		await mongoCollection('posts')
