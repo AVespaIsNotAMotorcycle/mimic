@@ -14,7 +14,6 @@ import Image from './Image';
 import ComposePost from './ComposePost';
 import Popup from './Popup';
 import Loading from './Loading';
-import { timeStamp } from 'console';
 
 const DEFAULT_ALT_TEXT = 'The user has not supplied alt text for this image.';
 
